@@ -353,6 +353,65 @@
 - Resources
   - [Real Python: Python Debugging with pdb](https://realpython.com/python-debugging-pdb/)
 
+# Testing and PyTest
+- Tests typically fall into a few different types
+  - **Unit tests** examine the functionality of a single component.
+    - These tests should be able to be executed extremely fast, e.g. in a split second.
+  - **Integration tests** examine the functionality of multiple components that work together.
+- Parts of a test
+  - **Importing** the methods to be tested
+    - Typically the file must be a module with an `__init__.py` file.
+    - A workaround for scripts is to use the built-in `__import__('script.py')` function.
+  - **Test steps** are the individual tests, e.g. unit or integration.
+  - **Test assertion** compares the result of an input against a known correct output via the assert statement which returns a Boolean. If false, it throws an AssertionError.
+  - **Fixtures** are data created as input to tests, commonly reused between tests.
+    - `setUp` method is run before all test methods so it can initialize fixtures, e.g. creating a local instance of a database that loads some dummy data.
+    - `responses` library complements the requests library for HTTP fixtures.
+- **Test runners** executes tests as part of scripted, **automated testing**.
+  - `unittest` is the built-in test runner.
+    - Tests inherit from `unittest.TestCase` base class.
+    - It requires non-native assertions, e.g. `self.assertEqual()` rather than `assert`.
+  - `nose`, later forked to `nose2`, can be used as a drop-in replacement to `unittest`.
+    - Automatically discovers test scripts named `test*.py`.
+    - Automatically discovers test cases inheriting from `unittest.TestCase`.
+  - `pytest` is another very popular test runner.
+    - Supports the built-in `assert` statement rather than special methods.
+    - Automatically discovers test scripts named `test_*.py` or `*_test.py`.
+    - Automatically discovers test cases in functions and classes whose names are prefixed with `test`, as well as anything inheriting from `unittest.TestCase`.
+- Pytest command line arguments
+  - **`-m`** runs tests as a module, similar to python -m.
+  - **`-k <expr>`** selects tests whose names match string expression `<expr>`.
+    - This can contain operators, e.g. `MyClass and not method`.
+    - Select a single test: `module::func` or `module::Class::method`.
+  - **`-x`** stops after the first failure
+  - **`--pdb`** drops into PDB on errors; often combined with `-x`.
+  - **`--trace`** drops into PDB at the start of *every* test.
+  - **`--lf`** reruns only the test(s) that failed the last time Pytest was run.
+  - **`-v`** shows verbose output; **`--vv`** shows extra verbose output.
+  - **`--tb={auto,no,line,short,native,long}`** controls the size of the traceback.
+  - **`--show-capture={no,stdout,stderr,log,all}`** controls how captured output is shown on failed tests.
+  - **`-s`** disables capturing so output (e.g. print statements) are passed along as normal.
+  - **`--durations=N`** shows `N` slowest test durations (`0` for all).
+- Mock objects are used to replace complex entities in tests using the `unittest.mock` module.
+  - **`MagickMock`** is a subclass of **`unittest.mock.Mock`** with most magic methods pre-defined.
+  - **`patch('obj')`** will replace the selected obj with a MagicMock .
+    - **Decorator form** passes the mock as an argument to the decorated function.
+    - **Context manager** form mocks the object for a more limited scope.
+    - **Manual form** uses **`start()`** and **`stop()`** but the latter should be called in tear down.
+    - **`patch.object`** will mock only one method of an object rather than the whole thing.
+    - **`patch.dict`** will patch a dictionary-like object and restore its state afterwards.
+    - **`wraps`** kwarg passes calls through to the specified object, which is useful when just spying on the mocked objects behavior without changing it.
+  - **`return_value`** attribute sets simple, unchanging return value.
+  - **`side_effect`** sets an iterable of return values and/or exceptions for a mock called multiple times, or a function that is called by the mock.
+  - **`Mock(spec=...)`** is a specification for the mocked object.
+  - **`call_count`**, **`call_args`**, and **`call_args_list`** attributes expose the number of calls, the last call's arguments, and the list of all calls' arguments.
+  - **`assert_not_called()`**, **`assert_called()`**, and **`assert_called_once()`** check that the mocked function was called exactly zero, at least once, and exactly one time.
+  - **`assert_any_call()`**,  **`assert_called_with()`**,  **`assert_called_once_width()`** check that any, the last, or the only call of the mocked function used the specified args and kwargs.
+  - **`reset_mock()`** resets the call attributes on the mock object.
+  - **`unittest.mock.ANY`** is "equal" to everything such that that arg/kwarg is ignored.
+- Resources
+  - [Real Python: Getting Started with Testing in Python](https://realpython.com/python-testing/)
+  - [Real Python: Understanding the Python Mock Object Library](https://realpython.com/python-mock-library/)
 
 # TODO: NumPy
 - Basics: shape, size, dtypes, resize, axes

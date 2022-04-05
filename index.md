@@ -257,6 +257,10 @@
   - **Rotate a 2D** array by flipping rows (or columns) and then transpose.
   - `list.pop()` removes *last* element of list in O(1) time, `list.pop(0)` removes *first* element in O(n) time.
     - Use `collections.deque` for both of these to be O(1) time.
+- TODO: all [walrus operator](https://realpython.com/python-walrus-operator/)
+- TODO: add @staticmethod, @classmethod
+- TODO: add [@property, @property.seter, @property.deleter](https://realpython.com/python-property/)
+- TODO: operator precedence
 
 # Python built-in modules
 - [**`math` module**](https://docs.python.org/3/library/math.html) contains many basic mathematical helpers that don't require NumPy.
@@ -298,3 +302,62 @@
 - [**`operator` module**](https://docs.python.org/3/library/operator.html)
   - **`operator.attrgettr(*attrs)`** returns a function that reads attrs from its operand.
   - **`operator.itemgettr(*attrs)`** returns a function that gets attrs from its operand.
+- TODO: random (seed, random number in range, random integer in range, random choice from sequence)
+- TODO: pathlib
+- TODO: datetime
+- TODO: pprint
+- TODO: heapq
+- TODO: tempfile
+- TODO: glob, including `iglob`, `recursive`
+- TODO: shutil
+- TODO: csv
+- TODO: argparse, including [clever way to test via argv params](https://jugmac00.github.io/blog/testing-argparse-applications-the-better-way/)
+- TODO: typing
+- TODO: dataclasses
+- TODO: os, including `is_file` versus `is_exists`
+
+# Python debugger (`pdb`)
+- Triggering the debugger:
+  - Manual method: **`import pdb; pdb.set_trace()`**.
+  - Command line flag: **`python -m pdb app.py arg1 arg2`**.
+  - Python 3.7+: **`breakpoint()`** which can be configured with environment variables.
+  - **Prompt shows the next line of code** which has yet to be executed.
+- Navigation
+  - **`n(ext)` steps over**, i.e. executes until reaching **next** line in current block (or returning).
+  - **`s(tep)` steps into**, i.e. executes but stops as soon as possible, perhaps in a called function.
+  - **`c(ont(inue))` continues** execution until another breakpoint is found.
+  - **`r(eturn)`** continues execution until the current function returns.
+  - **`unt(il)`** executes until reaching farther than current position or the specified line.
+  - **`j(ump)`** jumps to skip or re-execute code.
+  - **`Enter`** key **repeats** last command.
+  - **`l`** and **`ll`** shows the source code context around the current position; `ll` prints more.
+  - **`w(here)`** shows the stack trace with the most recent frame on the bottom.
+  - **`u <i>`** moves up `i` levels in the stack trace to an older frame, default `1` if no `i`.
+  - **`d <i>`** moves down `i` levels in the stack trace to a newer frame, default `1` if no `i`.
+- Display
+  - **`p my_var`** prints the contents of variable my_var.
+  - **`pp my_var`** pretty-prints the contents of variable my_var.
+  - **`a(rgs)`** prints the argument list of the current function.
+  - **`whatis <exp>`** prints the type of `<exp>`.
+  - **`display [exp]`** adds `expr` to a list that is shown each time execution stops. With no arguments, this shows all display expressions, like a watch list.
+  - **`undisplay [expr]`** removes `expr` from display list. With no arguments, removes all items.
+  - **`!` prefix** escapes any pdb commands to display variables that collide with command names.
+- Breakpoints
+  - **`b(reak)`** with no arguments lists current breakpoints.
+  - **`b my_file:5`** adds a breakpoint in `my_file.py` at line `5`.
+  - **`b my_file:my_func`** adds a breakpoint in `my_file.py` at function `my_func`.
+  - **`b my_file:5`**, if not flag adds a conditional breakpoint on value of flag variable.
+  - **`cl(ear)`** disables breakpoints by their number or `file:line` or `file:function`.
+  - **`enable <num>`** and **`disable <num>`** turn breakpoints on and off by their number.
+  - **`q(uit)` quits** debugging and exits pdb.
+- Resources
+  - [Real Python: Python Debugging with pdb](https://realpython.com/python-debugging-pdb/)
+
+
+# TODO: NumPy
+- Basics: shape, size, dtypes, resize, axes
+- Conversion: tolist, to/from text files, npy pickling,
+- Indexing: range, with another array
+- Creation: zeroes, ones, random, nan
+- Comparisons: array_equal
+- Masked arrays

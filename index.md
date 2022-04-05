@@ -125,6 +125,8 @@
   - `docker ps` lists Docker containers currently running on the host machine.
   - `docker image ls` lists Docker images currently stored on the host machine. Note that the SIZE column double counts disk space used by layers in multiple images.
   - `docker container ls` lists Docker containers currently running on the host machine.
+  - `docker run` !TODO!
+  - `docker exec <image-id> -- <command>` performs the specified command on a running container, e.g. launch an interactive shell.
 - Docker cleanup instructions
   - `docker system df -v` lists disk usage by images, containers, and volumes ([docs](https://docs.docker.com/engine/reference/commandline/system_df/)).
   - `docker system prune --volumes` will remove stopped containers, unused networks, dangling images, build cache, and volumes ([docs](https://docs.docker.com/config/pruning/)).

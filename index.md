@@ -148,3 +148,30 @@
 - Resources
   - [It’s FOSS - apt command guide](https://itsfoss.com/apt-command-guide/)
   - [Ubuntu Help - Managing Repositories](https://help.ubuntu.com/community/Repositories/CommandLine)
+
+# Homebrew (brew) package manager for MacOS
+- Homebrew is the "missing package manager for MacOS" similar to `apt` or `dpkg` from Linux.
+  - **Tap** is a remote git repository of package(s). The default is `homebrew/core`.
+  - **Formula** is a package definition stored in the Tap.
+  - **Keg** is the installation directory of a single version of a Formula.
+  - **Rack** is the directory containing one or more versions of a Formula.
+  - **Cellar** is the local directory containing one or more Racks.
+  - **Cask** is a Formula that installs native MacOS applications.
+  - **Bottle** is a pre-built keg, used instead of building from source.
+- Updating Homebrew and taps
+  - **`brew update`** will update brew itself as well as all formulae.
+  - **`brew tap`** lists current taps.
+    - `brew tap user/repo` adds a new tab from Github user `user` and their repo `repo`.
+    - `brew tap user/repo url` clones from a tap hosted somewhere other than Github.
+- Interacting with formulae
+  - **`brew list`** will list all installed formulae.
+  - **`brew search name`** will search for packages matching `name`.
+  - **`brew install <package>`** will install `package`.
+  - **`brew uninstall <package>`** will uninstall `package`.
+- Upgrading formulae
+  - `brew outdated` lists all outdated formulae
+  - **`brew upgrade [--dry-run]`** will update all taps and then upgrade their formulae.
+    - **`brew upgrade <package>`** will only upgrade `package`.
+  - `brew autoremove [--dry-run]` will remove formulae that were only installed as a dependency that is no longer needed.
+  - `brew cleanup` will remove old versions, lock files, outdated files, etc.
+

@@ -257,6 +257,12 @@
   - **Rotate a 2D** array by flipping rows (or columns) and then transpose.
   - `list.pop()` removes *last* element of list in O(1) time, `list.pop(0)` removes *first* element in O(n) time.
     - Use `collections.deque` for both of these to be O(1) time.
+- Inheritance vs. composition
+  - **Inheritance models "is a" relationships**: the subclass (aka derived class, subtype) inherits (aka extends, derives) from a base class (aka super class).
+    - **Abstract base classes** exist to be inherited but never instantiated. Derive from `abc.ABC` to prevent instantiation and use `@abc.abstractmethod` to require implementation of decorated methods in subclasses.
+    - **Multiple inheritance**, i.e. subclassing multiple superclasses, *is* allowed in Python. It obeys method resolution order (MRO) in `__mro__`.
+  - **Composition models "has a" relationships**: the composite class contains one or more of the component classes (the cardinality may be specified in UML diagrams).
+
 - TODO: all [walrus operator](https://realpython.com/python-walrus-operator/)
 - TODO: add @staticmethod, @classmethod
 - TODO: add [@property, @property.seter, @property.deleter](https://realpython.com/python-property/)
@@ -315,6 +321,45 @@
 - TODO: typing
 - TODO: dataclasses
 - TODO: os, including `is_file` versus `is_exists`
+
+# Python concurrency
+- Basics
+  - **Concurrency** means the flows of tasks overlap in time, otherwise they are sequential. This includes a broad number of sub-concepts.
+  - **Parallelism** is one kind of concurrency that runs separate processes simultaneously on different cores: `multiprocessing` in Python.
+  - **Preemptive multitasking** has the OS decide when to switch threads; such switches can happen at any time but it is simple to code: `threading` in Python.
+  - **Cooperative multitasking** has threads decide when to switch, limiting when switches can happen but requiring more code: `asyncio` in Python.
+- Python concurrency with `threading`.
+  - **Preemptive multitasking**: OS decides when to switch threads.
+  - **`concurrent.futures.ThreadPoolExecutor`** is abstraction that simplifies starting, managing, and joining threads.
+  - **`threading.local()`** creates variables local to each thread.
+- Python concurrency with `asyncio` tasks.
+  - **Cooperative multitasking**: tasks explicitly return control.
+    - Tasks are lighter-weight than threads, so it scales very well.
+  - **Event loop** controls how and when tach task gets run.
+    - **`asyncio.get_event_loop()`** returns this object.
+    - **`asyncio.run()`** was introduced in Python 3.7 as a replacement for **`loop.run_until_complete()`**.
+  - **`Coroutines`** are functions that can suspend execution before reaching return, allowing another coroutine to run for awhile.
+    - Like generators, coroutines can't just be called, they have to be scheduled with `asyncio.run()` or `await`.
+  - Native coroutines available in Python 3.5+
+    - **`await`** keyword returns control back to event loop while waiting for the awaitable object e.g. another coroutine.
+    - **`async def`** means defined function can use `await`.
+    - **`async with`** means context manager can be awaited.
+  - Generator-based coroutines will be removed in Python 3.10
+    - `@asyncio.coroutine decorator` is like `async def`.
+    - `yield from` is like `await`.
+  - **`asnycio.gather`** collects coroutines/futures into a single future.
+  - **`asyncio.Queue`** supports arbitrary, unrelated producers adding items to a queue from which consumers remove items.
+  - **`async for`** does not make generators/comprehensions concurrent, it just allows the enclosing function to allow other tasks to run.
+- Python concurrency + parallelism with `multiprocessing` processes.
+  - This creates processes with independent interpreters.
+  - **`multiprocessing.Pool`** can use map to apply a function to an iterable in parallel.
+  - **`initializer`** persists objects within a process across calls.
+  - TODO: add ProcessPoolExecutor
+  - TODO: mention pebble library and its advantages
+- Resources
+  - [Speed Up Your Python Program With Concurrency](https://realpython.com/python-concurrency/)
+  - [Async IO in Python: A Complete Walkthrough](https://realpython.com/async-io-python/)
+
 
 # Python debugger (`pdb`)
 - Triggering the debugger:

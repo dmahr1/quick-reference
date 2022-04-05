@@ -125,7 +125,7 @@
   - `docker ps` lists Docker containers currently running on the host machine.
   - `docker image ls` lists Docker images currently stored on the host machine. Note that the SIZE column double counts disk space used by layers in multiple images.
   - `docker container ls` lists Docker containers currently running on the host machine.
-  - `docker run` !TODO!
+  - `docker run` TODO
   - `docker exec <image-id> -- <command>` performs the specified command on a running container, e.g. launch an interactive shell.
 - Docker cleanup instructions
   - `docker system df -v` lists disk usage by images, containers, and volumes ([docs](https://docs.docker.com/engine/reference/commandline/system_df/)).
@@ -175,3 +175,41 @@
   - `brew autoremove [--dry-run]` will remove formulae that were only installed as a dependency that is no longer needed.
   - `brew cleanup` will remove old versions, lock files, outdated files, etc.
 
+# Python environments: pip, virtualenv, pipenv, conda
+- Virtual Environments
+  - **System packages** are built-in to the standard Python library.
+  - **Site packages** are third party libraries that are installed separately in a folder specified by `import site; site.getsitepackages()`. But this doesn’t disambiguate versions.
+  - **Virtual Environments** are isolated environments that allows each project to have its own dependencies, or different versions of the same dependencies.
+  - **`pip install -r requirements.txt`** installs all dependencies in `requirements.txt`. Certain versions of dependencies can be pinned, e.g. `flask==0.12.1`. But this can still cause [dependency hell](https://en.wikipedia.org/wiki/Dependency_hell).
+- Virtual Environments with **`pipenv`**
+  - `pipenv` allows for deterministic builds without being responsible for updating versions of sub-dependencies in the `requirements.txt` file. It wraps both `pip` and `virtualenv`.
+  - The current directory is the key for the environment; changing its name will break the link.
+  - `pipenv install <package>[==<version]` installs a package for the current virtual environment, with an optional specified version, which is saved in the **`Pipfile`**.
+    - `[dev-packages]` lists packages only needed for development. , installed with `pipenv --dev install`.
+  - `Pipfile.lock` stores a snapshot of dependencies set (as hashes) by pipenv lock.
+    - In prod, `pipenv install --ignore-pipfile` installs from `Pipfile.lock` instead of `Pipfile`, similar to `pip freeze`.
+- Virtual Environments with **`Conda`**
+  - **Conda** is a more broad package, environment, and dependency management system than pip since it is designed to work for all languages, not just Python.
+  - **Anaconda** is a distribution of lots of software used in data science via Conda.
+  - **Miniconda** is a distribution with minimal software to “start from scratch”.
+  - **`conda env list`** lists all environments currently available.
+  - **`conda create --name my_env`** creates a new environment my_env. Use the `python=3.x` flag to specify the version of Python to use.
+  - **`conda activate my_env`** activates the environment my_env. deactivate returns to base.
+  - **`conda env remove -n my_env`** deletes the specified environment.
+  - **`conda list`** lists all packages installed in the current environment.
+  - **`conda search`** searches current channels for a given package, accepting wildcards.
+  - **`conda install`** solves dependencies and installs a package after prompting.
+    - `--dry-run` flag will always stop before performing installation.
+    - `-c <channel>` will search for the package in alternate channel `channel`.
+  - **`conda update`** will update the specified package, or use --all flag to update everything.
+  - **`pip install`** commands install to the current Conda environment!
+  - **`conda env export`** generates a YML-formatted file with the environment for sharing.
+  - **`conda clean`** TODO
+  - **`conda remove --name my_env --all`** removes an environment and all installed packages.
+- pip-tools
+  - pip-compile TODO
+- Resources
+  - [Real Python: Python Virtual Environments - A Primer](https://realpython.com/python-virtual-environments-a-primer/)
+  - [Real Python: Pipenv - A Guide to the New Python Packaging Tool](https://realpython.com/pipenv-guide/)
+  - [Conda: Myths and Misconceptions](https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/)
+  - [Real Python: Setting Up Python for Machine Learning on Windows](https://realpython.com/python-windows-machine-learning-setup/)

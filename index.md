@@ -71,3 +71,37 @@
   - [How to explain git in simple words?](https://smusamashah.github.io/blog/2017/10/14/explain-git-in-simple-words)
   - [How to teach Git](https://rachelcarmena.github.io/2018/12/12/how-to-teach-git.html)
   - [How to verify commits on github via GPG key](https://daily-dev-tips.com/posts/how-to-verify-your-commits-on-github/) + [use Apple Keychain to store GPG Passphrases](https://gist.github.com/koshatul/2427643668d4e89c0086f297f9ed2130)
+
+# `zsh` shell
+- zsh is an alternative shell to bash. It is the default in newer Macs [for licensing reasons](https://scriptingosx.com/2019/06/moving-to-zsh/).
+- Oh My Zsh (OMZ) is a plugin framework for zsh with [a few builtins](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet):
+  - `omz --help` to get available commands
+  - `omz update` to update oh my zsh
+  - `omz reload` to apply changes made in .zshrc. Do not run source ~/.zshrc.
+  - `..` = `cd ..` goes to parent directory
+  - `...` = `cd ../..` goes to grandparent directory, also works for great-great-grandparent.
+  - `d` = `dirs -v`, lists last visited directories
+  - `-` = `cd` to last visited directory
+  - `{1..9}` = cd to nth last visited directory in dir stack
+- All plugins: `plugins=(git colored-man-pages zsh-autosuggestions zsh-syntax-highlighting docker)`
+- [OMZ git plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git) most commonly used aliases:
+  - `gsb` = `git status -sb`
+  - `gco` = `git checkout`
+  - `gcb` = `git checkout -b`
+  - `gcm` = `git checkout $(git_main_branch)`
+  - `ga` = `git add`
+  - `gcmsg` = `git commit -m`
+  - `gcam` = `git commit -a -m`
+  - `gl` = `git pull`
+  - `gp` = `git push`
+  - `gpsup` = `git push --set-upstream origin $(git_current_branch)`
+  - `glol` = `git log` with pretty one-line view
+  - `glols` = `git log` with pretty view showing changes
+  - `gsu` = `git submodule update`
+- powerlevel10k theme
+  - Use [Iosevka patched with Nerd Fonts](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/Iosevka) so that extra symbols are available.
+- [zsh-syntax-highlighting external plugin](https://github.com/zsh-users/zsh-syntax-highlighting).
+- [zsh-autosuggestions external plugin](https://github.com/zsh-users/zsh-autosuggestions)
+- Resources
+  - ["Moving to zsh" multi-part article](https://scriptingosx.com/2019/06/moving-to-zsh/)
+  - [Configuring VSCode to work with zsh](https://linuxpip.org/vscode-zsh/)

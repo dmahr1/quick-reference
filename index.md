@@ -125,7 +125,7 @@
   - `docker ps` lists Docker containers currently running on the host machine.
   - `docker image ls` lists Docker images currently stored on the host machine. Note that the SIZE column double counts disk space used by layers in multiple images.
   - `docker container ls` lists Docker containers currently running on the host machine.
-  - `docker run` TODO
+  - `docker run` TODO: add explanation
   - `docker exec <image-id> -- <command>` performs the specified command on a running container, e.g. launch an interactive shell.
 - Docker cleanup instructions
   - `docker system df -v` lists disk usage by images, containers, and volumes ([docs](https://docs.docker.com/engine/reference/commandline/system_df/)).
@@ -204,10 +204,10 @@
   - **`conda update`** will update the specified package, or use --all flag to update everything.
   - **`pip install`** commands install to the current Conda environment!
   - **`conda env export`** generates a YML-formatted file with the environment for sharing.
-  - **`conda clean`** TODO
+  - **`conda clean`** TODO: add explanation
   - **`conda remove --name my_env --all`** removes an environment and all installed packages.
 - pip-tools
-  - pip-compile TODO
+  - pip-compile TODO: add explanation and example
 - Resources
   - [Real Python: Python Virtual Environments - A Primer](https://realpython.com/python-virtual-environments-a-primer/)
   - [Real Python: Pipenv - A Guide to the New Python Packaging Tool](https://realpython.com/pipenv-guide/)
@@ -257,3 +257,44 @@
   - **Rotate a 2D** array by flipping rows (or columns) and then transpose.
   - `list.pop()` removes *last* element of list in O(1) time, `list.pop(0)` removes *first* element in O(n) time.
     - Use `collections.deque` for both of these to be O(1) time.
+
+# Python built-in modules
+- [**`math` module**](https://docs.python.org/3/library/math.html) contains many basic mathematical helpers that don't require NumPy.
+  - **`isfinite()`**, **`isinf()`**, **`isnan()`** test whether a float is finite, infinite, or `NaN`.
+  - **`isclose(a, b, rel_tol=1e-9, abs_tol=0.0)`** tests closeness of two values e.g. avoiding floating point errors; also see [`numpy.isclose`](https://numpy.org/doc/stable/reference/generated/numpy.isclose.html) and [`pytest.approx`](https://docs.pytest.org/en/stable/reference.html#pytest-approx).
+  - `ceil()`/`floor()` return integer greater/less than or equal to argument.
+  - Trigonometric functions use **radians** (`cos`, `sin`, `tan`, `acos`, `asin`, `atan`, `atan2`), use **`degrees()`** and **`radians()`** to perform necessary conversions.
+  - **`atan2`** is recommended over **`atan`** since it computes the correct quadrant of an angle via sign.
+  - **`dist(p, q)`** returns distance between points p and q; hypot(*p) is distance from origin.
+  - **`log2(x)`** and **`log10(x)`** are more accurate shortcuts over **`log(x, base)`**.
+  - **Constants** `pi`, `e`, `inf`, `nan` are self-explanatory.
+- [**`csv` module**](https://docs.python.org/3/library/csv.html) is for reading and writing separated-value files like CSV, TSV, etc
+  - **`reader(list_or_file)`** iterates over lines of an input file.
+  - **`writer(list_or_file)`** writes output using `.writerow(list_of_cols)`.
+  - **`DictReader(list_or_file)`** reads input into dictionaries using the header in the first line (or provided in `fieldnames` optional kwarg).
+  - **`DictWriter(list_or_file, fieldnames)`** writes dictionaries to an output file.
+- **`collections`** module contains some helpful data structures
+  - **`deque([])`** creates a double-ended queue object.
+    - `q.popleft()` pops from the left of a deque in O(1) time, not O(n) time as in a list.
+    - `q.appendleft()` appends to the left of a deque in O(1) time, not O(n) time as in a list.
+  - **`Counter(iterable)`** returns dictionary mapping items to counts in `iterable`.
+    - Indexing an item that was not present in `iterable` returns `0` rather than `KeyError`.
+    - `elements()` returns iterator over elements with the correct number of repetitions.
+    - `Counter.most_common([n])` returns the n most common elements, ties broken arbitrarily.
+  - **`defaultdict()`** is a subclass of dictionary that automatically instantiates value objects when a key is not present instead of raising `KeyError`.
+    - Example 1: `d = defaultdict(list)` will create an empty list so that `d[k].append(v)` when `k` is not present will create a new list before appending `v` to it.
+    - Example 2: `d = defaultdict(int)` creates integer `0` so `d[k] += 1` when `k` is not present starts counter at `0` before incrementing.
+    - Defaults are normally implemented on a per-key basis using the built-in `d.setdefault(k, func)` function.
+- [**`itertools` module**](https://docs.python.org/3/library/itertools.html) contains helpers for working with iterables
+  - **`chain(*seqs)`** returns elements from each sequence in `seqs`, "flattening" them.
+  - **`combinations(p, r)`** returns every *combination* of `r` elements from `p`.
+  - **`permutations(p, r)`** returns every *permutation* of `r` elements from `p`.
+  - **`groupby(iter, key)`** returns groups of consecutive elements from `iter` that have the same value when passed to the `key` function, like POSIX `uniq`. Typically, `sorted(iter)` is desirable.
+- [**`functools` module**](https://docs.python.org/3/library/functools.html)
+  - **`functools.reduce(func, iterable)`** applies aggregation function func to elements of iterable in a rolling manner that is faster than a for-loop.
+  - **`@functools.lru_cache(maxsize=n)`** caches up to n results from the decorated function.
+  - **`functools.partial()`** "freezes" a portion of a function's arguments, but still allows overriding.
+    - TODO: add example
+- [**`operator` module**](https://docs.python.org/3/library/operator.html)
+  - **`operator.attrgettr(*attrs)`** returns a function that reads attrs from its operand.
+  - **`operator.itemgettr(*attrs)`** returns a function that gets attrs from its operand.

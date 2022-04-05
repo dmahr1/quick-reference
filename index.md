@@ -213,3 +213,47 @@
   - [Real Python: Pipenv - A Guide to the New Python Packaging Tool](https://realpython.com/pipenv-guide/)
   - [Conda: Myths and Misconceptions](https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/)
   - [Real Python: Setting Up Python for Machine Learning on Windows](https://realpython.com/python-windows-machine-learning-setup/)
+
+# Python fundamentals
+- ["Pass-by-assignment"](https://realpython.com/defining-your-own-python-function/#argument-passing-summary) is how arguments are passed in Python.
+  - **Immutable object parameters are passed by value**, e.g. int, str, tuple, frozenset. Reassigning rebinds the variable only in the function's scope rather than replacing the original object.
+  - **Mutable object parameters are sort of like pass-by-reference**: they can't reassign the object wholesale, but they can make in-place changes within the object e.g. dictionary updates.
+  - Returning data to the caller is better practice rather than relying on in-place side effects.
+- **Keyword-only parameters**: `f(*args, kw='foo')` means `kw` must be specified by name.
+- **Positional-only parameters**: `f(x, y, /, z)` means `x` and `y` must be specified by position.
+- [LEGB Rule](https://realpython.com/python-scope-legb-rule/) is the ordering in which Python resolves names
+  - **Local (or function) scope** is the code block of a function.
+  - **Enclosing (or nonlocal) scope** encloses an inner/nested function (somewhat rare).
+  - **Global (or module) scope** contains named defined at the top level of a program or module.
+  - **Built-in scope** contains Python's built-in keywords, functions, exceptions, etc.
+- Operators
+  - `x or y` returns `x` if `x` is truthy, otherwise it returns `y`.
+  - `x and y` returns `x` if `x` is falsey, otherwise it returns `y`. This can be used to chain function calls conditionally, e.g. `Path.exists() and Path.read_text()`.
+- String tricks
+  - **Test alphabetic/numeric/alphanumeric** with `str.isalpha()`, `str.isnumeric()`, `str.isalnum()`. Can also check case with `str.islower()`, `str.isupper()`.
+  - Split a string on line separator with `str.splitlines()`.
+  - `str.removeprefix()` and `str.removesuffix()` added in Python 3.9.
+- [F-strings](https://docs.python.org/3/library/string.html#format-specification-mini-language): `[[fill]align][sign][#][0][width][grouping_option][.precision][type]`.
+  - `fill` is character to use to fill to meet width; default `' '`; placement depends on `align`.
+  - `align`: `<` for left, `>` for right, `=` for after sign but before digits (numbers only).
+  - `sign` of minus `-` includes sign on negatives only (default), plus `+` includes for positives and negatives, space ' ' includes leading space on positive and minus sign on negatives.
+  - `width` integer specifies minimum width of string (including prefixes, separators, etc.)
+  - `grouping_option` of comma `,` will include thousands separators for large numbers.
+  - `precision` specifies fixed number of decimals to round floats to; use with `type` of `f`.
+  - Example: `f'{1e6:@<+17,.2f}' == '+1,000,000.00@@@@'`.
+- [Built-in functions](https://docs.python.org/3/library/functions.html) of note
+  - `dir(module)` returns a list of defined names in a namespace, default is current namespace.
+  - `type(obj)` print out the type of class `obj`.
+  - `help(class_or_func)` print out the docstring of class/function `class_or_func`.
+  - `divmod(a, b)` returns integer quotient and remainder, i.e. `(a // b, a % b)`.
+  - `sorted()`, `max()`, and `min()` have optional `key` parameter defining how comparison key is extracted. Example: to sort objects by length, use `sorted(iterable, key=len)`.
+  - `filter(func, iterable)` applies filter function `func`, only returning elements of iterable that return `True` when an argument to `func`.
+  - `sum(iterables, [])` concatenates interables together.
+  - TODO: Add more based on [this article](https://docs.python.org/3/library/functions.html)
+- List tricks
+  - **Reverse arrays/strings** via negative step in slicing, e.g. `arr[::-1]` is reverse of iterable `arr`.
+  - **Transpose** an iterable of iterables with `zip()`.
+  - For array `arr` of size `n`, to index an element `i` spaces from the last, instead of doing `arr[n-i-1]` you can just do `arr[~i]` which uses bitwise complement to get `~i == -i - 1`.
+  - **Rotate a 2D** array by flipping rows (or columns) and then transpose.
+  - `list.pop()` removes *last* element of list in O(1) time, `list.pop(0)` removes *first* element in O(n) time.
+    - Use `collections.deque` for both of these to be O(1) time.

@@ -130,3 +130,19 @@
   - `docker system prune --volumes` will remove stopped containers, unused networks, dangling images, build cache, and volumes ([docs](https://docs.docker.com/config/pruning/)).
   - `docker image rm -f <image-ids>` to remove obsolete and large images.
 
+# `apt` package manager for Linux/Ubuntu
+- `dpkg` is the packaging system for Debian Linux, from which Ubuntu is derived.
+- APT (Advanced Package Tool) is a friendlier command-line wrapper around dpkg.
+  - `sudo apt update` will update the local database of available packages.
+  - `sudo apt upgrade` will upgrade all packages that have available updates.
+  - `sudo apt install` will install a new package or upgrade the existing one, if already installed.
+  - `sudo apt remove` will uninstall a package, except for residue configuration files.
+  - `sudo apt purge` will uninstall a package, including residue configuration files.
+  - `apt search` will find all packages containing a search term.
+  - `apt show` will display information about a package before installing or removing.
+  - `apt list [--installed|--upgradeable]` will list installed packages (that can be upgraded).
+  - `sudo apt autoremove` will remove packages installed automatically to satisfy the dependencies of other packages that have since been removed.
+  - `sudo apt-key adv --keyserver <server> --recv-keys <key>` fixes the error "The following signatures couldn't be verified because the public key is not available" ([docs](https://chrisjean.com/fix-apt-get-update-the-following-signatures-couldnt-be-verified-because-the-public-key-is-not-available/)).
+- Resources
+  - [It’s FOSS - apt command guide](https://itsfoss.com/apt-command-guide/)
+  - [Ubuntu Help - Managing Repositories](https://help.ubuntu.com/community/Repositories/CommandLine)

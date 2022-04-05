@@ -1,0 +1,73 @@
+# Git
+
+- Objects
+  - **Blobs** are storage units for files, stored in directories called **trees**.
+  - **Hashes** are hexadecimal strings that uniquely identify a blob, commit, or tree.
+  - **Commits** are snapshots of code, stored as pointers to specific trees.
+  - **Commit history** is a linked list/tree of commits, since each points to their predecessor.
+  - **Branches** are pointers to specific commits that can be moved.
+    - **HEAD** is a special pointer to the current branch.
+- Places
+  - **Working tree/directory** is the current state of the files visible to the user in the filesystem.
+  - **Index** is a staging area/buffer for changes before the actual commit.
+  - **Local repository** contains changes that have been committed from the staging area, as well as other branches, their entire commit history, etc.
+  - **Remote repository** is separate from local, often on Github or another version control system.
+  - **Stash** is a temporary holding area for changes only on the local repo.
+- Common actions
+  - **Cloning** (`git clone`) copies from the remote repo to local repo and working directory
+    - This also sets HEAD to the currently active branch from the remote.
+  - **Changes** to working directory affect **tracked files** that were in a previous commit or in the staging area, as well as **untracked files** which git has never seen before.
+  - **Staging** (`git add`) adds changes made in the working directory to the index i.e. **staged files**.
+  - **Viewing status** (`git status`) shows tracked, untracked, and staged files.
+  - **Viewing differences** (`git diff`) shows changes between working tree and index.
+    - `git diff HEAD` compares changes between working tree and last commit.
+    - `git diff --staged` compares changes between index and last commit.
+  - **Committing** (`git commit`) saves changes from the index to the local repo.
+    - `-m` specifies the commit message inline rather than opening an editor.
+    - `-a` stages all modified files, but only tracked files.
+  - **Viewing commit history** (`git log`) lists all the commits of the working tree.
+  - **Pushing** (`git push`) shares changes in the local repo to the remote repo.
+  - **Fetching** (`git fetch`) shares changes in the remote repo to the local repo.
+  - **Merging** (`git merge`) incorporates changes from one branch/commit history into another.
+    - The merger’s changes are logged as a new commit on the destination branch.
+  - **Pulling** (`git pull`) both fetches to local repo and merges with the local directory.
+  - **Switching branches** (`git checkout <branch>`) swaps out working tree for <branch>.
+    - `-b` creates a new branch in the local repo.
+    - `-f` discards changes in working tree and index; normally these block checkout.
+- Less-common actions
+  - **Updating submodules** (`git submodule update --init`)
+  - **Amending** (`git commit --amend`) modifies the previous commit; don’t do this after pushing.
+  - **Restoring files** (`git checkout [<hash> --] <files>`)  overwrites <files> in the working tree and index for the versions from the commit with <hash>.
+  - **Undo last commit** (`git reset --soft HEAD~1`) sets HEAD branch back by 1 commit, without touching any of the actual changes.
+  - **Squashing** combines many commits into one, and can be done multiple ways.
+    - To squash contiguous commits, use `git reset --soft HEAD~X` to move HEAD, but not working tree or index back by X commits, then use `git commit` as usual.
+    - To squash non-contiguous commits, rewrite the last X commits of history with the interactive rebase tool `git rebase -i HEAD~X`. In the editor, reorder lines as needed and enter squash or `fixup` next to the commits that should be melded upwards.
+  - **Cherry-picking** (`git cherry-pick`) applies the changes from existing commits.
+    - `--no-commit` only stages, rather than committing (the default).
+    - It's best to cherry pick one at a time, otherwise merge conflicts get confusing.
+  - **Reverting** (`git revert`) undoes the changes from the specified commit(s).
+    - `--no-commit` only stages, rather than committing (the default).
+    - It's best to revert one at a time, otherwise merge conflicts get confusing.
+- **Stash** is a temporary holding area for changes, stored as a stack (LIFO) data structure.
+  - `git stash` moves tracked changes from the index and working tree to the stash
+    - `-u` or `--include-untracked` also moves untracked files, which are normally ignored.
+    - `git stash save <message>` includes a helpful message
+  - `git stash pop` moves top of stash back to the working tree and index.
+  - `git stash apply` copies top of stash back to working tree and index, leaving it in-place.
+  - `git stash list` lists the stash entries in the stack.
+- Aliases and other configuration
+  - `git config --global alias.co checkout` so `git co` does `git checkout`.
+  - `git config --global alias.br branch` so `git br` does `git branch`.
+  - `git config --global alias.ci commit` so `git ci` does `git commit`.
+  - `git config --global alias.st status` so `git st` does `git status`.
+  - `git config --global alias.hist 'log --pretty=format:"%h - %an, %ar : %s"'` so `git hist` prints a condensed version of git log with one row per commit.
+  - `git config --global core.fileMode false` ignores changes in file permissions.
+  - [Autocompletion](https://git-scm.com/book/en/v1/Git-Basics-Tips-and-Tricks) with bash
+  - `git lfs install` is needed before `git lfs pull`.
+  - [Aliases can be unset](https://stackoverflow.com/questions/23512402/how-can-i-delete-a-git-alias) with `git config --global --unset`
+- Resources
+  - [Official Git reference documentation](https://git-scm.com/docs)
+  - [(Official?) Pro Git book online](https://git-scm.com/book/en/v2)
+  - [How to explain git in simple words?](https://smusamashah.github.io/blog/2017/10/14/explain-git-in-simple-words)
+  - [How to teach Git](https://rachelcarmena.github.io/2018/12/12/how-to-teach-git.html)
+  - [How to verify commits on github via GPG key](https://daily-dev-tips.com/posts/how-to-verify-your-commits-on-github/) + [use Apple Keychain to store GPG Passphrases](https://gist.github.com/koshatul/2427643668d4e89c0086f297f9ed2130)

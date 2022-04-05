@@ -105,3 +105,28 @@
 - Resources
   - ["Moving to zsh" multi-part article](https://scriptingosx.com/2019/06/moving-to-zsh/)
   - [Configuring VSCode to work with zsh](https://linuxpip.org/vscode-zsh/)
+
+# Docker
+
+- Docker wraps code, runtime, system tools, and libraries into a complete filesystem that can be mounted and run on any environment that supports the Docker Engine.
+  - **Containers** are instantiated by the Docker Engine on the host machine.
+  - **Images** are the executable packages run by Docker Engine on the host machine.
+  - **Layers** are the subcomponents of images. Since they are independent, changes to one layer does not require rebuilding other layers.
+- **Dockerfiles** specify [commands](https://docs.docker.com/engine/reference/builder/) to be executed to assemble an image, including:
+  - `FROM` sets the base image from which all other commands are run. This must be first.
+  - `RUN` specifies a command to be run on the image, e.g. adding dependencies
+  - `COPY` copies files from the local file system to the image.
+  - `ADD` is similar to `COPY`, except with support for URLs and untarring.
+  - `EXPOSE` defines the ports exposed at runtime, with mapping defined at runtime.
+- Docker CLI commands
+  - `docker build` builds an image from a Dockerfile.
+  - `docker image ls` lists Docker images currently stored on the current host machine.
+  - `docker container ls` lists Docker containers currently running on the host machine.
+  - `docker ps` lists Docker containers currently running on the host machine.
+  - `docker image ls` lists Docker images currently stored on the host machine. Note that the SIZE column double counts disk space used by layers in multiple images.
+  - `docker container ls` lists Docker containers currently running on the host machine.
+- Docker cleanup instructions
+  - `docker system df -v` lists disk usage by images, containers, and volumes ([docs](https://docs.docker.com/engine/reference/commandline/system_df/)).
+  - `docker system prune --volumes` will remove stopped containers, unused networks, dangling images, build cache, and volumes ([docs](https://docs.docker.com/config/pruning/)).
+  - `docker image rm -f <image-ids>` to remove obsolete and large images.
+

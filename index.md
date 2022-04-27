@@ -1,0 +1,467 @@
+# Git
+
+- Objects
+  - **Blobs** are storage units for files, stored in directories called **trees**.
+  - **Hashes** are hexadecimal strings that uniquely identify a blob, commit, or tree.
+  - **Commits** are snapshots of code, stored as pointers to specific trees.
+  - **Commit history** is a linked list/tree of commits, since each points to their predecessor.
+  - **Branches** are pointers to specific commits that can be moved.
+    - **HEAD** is a special pointer to the current branch.
+- Places
+  - **Working tree/directory** is the current state of the files visible to the user in the filesystem.
+  - **Index** is a staging area/buffer for changes before the actual commit.
+  - **Local repository** contains changes that have been committed from the staging area, as well as other branches, their entire commit history, etc.
+  - **Remote repository** is separate from local, often on Github or another version control system.
+  - **Stash** is a temporary holding area for changes only on the local repo.
+- Common actions
+  - **Cloning** (`git clone`) copies from the remote repo to local repo and working directory
+    - This also sets HEAD to the currently active branch from the remote.
+  - **Changes** to working directory affect **tracked files** that were in a previous commit or in the staging area, as well as **untracked files** which git has never seen before.
+  - **Staging** (`git add`) adds changes made in the working directory to the index i.e. **staged files**.
+  - **Viewing status** (`git status`) shows tracked, untracked, and staged files.
+  - **Viewing differences** (`git diff`) shows changes between working tree and index.
+    - `git diff HEAD` compares changes between working tree and last commit.
+    - `git diff --staged` compares changes between index and last commit.
+  - **Committing** (`git commit`) saves changes from the index to the local repo.
+    - `-m` specifies the commit message inline rather than opening an editor.
+    - `-a` stages all modified files, but only tracked files.
+  - **Viewing commit history** (`git log`) lists all the commits of the working tree.
+  - **Pushing** (`git push`) shares changes in the local repo to the remote repo.
+  - **Fetching** (`git fetch`) shares changes in the remote repo to the local repo.
+  - **Merging** (`git merge`) incorporates changes from one branch/commit history into another.
+    - The merger’s changes are logged as a new commit on the destination branch.
+  - **Pulling** (`git pull`) both fetches to local repo and merges with the local directory.
+  - **Switching branches** (`git checkout <branch>`) swaps out working tree for <branch>.
+    - `-b` creates a new branch in the local repo.
+    - `-f` discards changes in working tree and index; normally these block checkout.
+- Less-common actions
+  - **Updating submodules** (`git submodule update --init`)
+  - **Amending** (`git commit --amend`) modifies the previous commit; don’t do this after pushing.
+  - **Restoring files** (`git checkout [<hash> --] <files>`)  overwrites <files> in the working tree and index for the versions from the commit with <hash>.
+  - **Undo last commit** (`git reset --soft HEAD~1`) sets HEAD branch back by 1 commit, without touching any of the actual changes.
+  - **Squashing** combines many commits into one, and can be done multiple ways.
+    - To squash contiguous commits, use `git reset --soft HEAD~X` to move HEAD, but not working tree or index back by X commits, then use `git commit` as usual.
+    - To squash non-contiguous commits, rewrite the last X commits of history with the interactive rebase tool `git rebase -i HEAD~X`. In the editor, reorder lines as needed and enter squash or `fixup` next to the commits that should be melded upwards.
+  - **Cherry-picking** (`git cherry-pick`) applies the changes from existing commits.
+    - `--no-commit` only stages, rather than committing (the default).
+    - It's best to cherry pick one at a time, otherwise merge conflicts get confusing.
+  - **Reverting** (`git revert`) undoes the changes from the specified commit(s).
+    - `--no-commit` only stages, rather than committing (the default).
+    - It's best to revert one at a time, otherwise merge conflicts get confusing.
+- **Stash** is a temporary holding area for changes, stored as a stack (LIFO) data structure.
+  - `git stash` moves tracked changes from the index and working tree to the stash
+    - `-u` or `--include-untracked` also moves untracked files, which are normally ignored.
+    - `git stash save <message>` includes a helpful message
+  - `git stash pop` moves top of stash back to the working tree and index.
+  - `git stash apply` copies top of stash back to working tree and index, leaving it in-place.
+  - `git stash list` lists the stash entries in the stack.
+- Aliases and other configuration
+  - `git config --global alias.co checkout` so `git co` does `git checkout`.
+  - `git config --global alias.br branch` so `git br` does `git branch`.
+  - `git config --global alias.ci commit` so `git ci` does `git commit`.
+  - `git config --global alias.st status` so `git st` does `git status`.
+  - `git config --global alias.hist 'log --pretty=format:"%h - %an, %ar : %s"'` so `git hist` prints a condensed version of git log with one row per commit.
+  - `git config --global core.fileMode false` ignores changes in file permissions.
+  - [Autocompletion](https://git-scm.com/book/en/v1/Git-Basics-Tips-and-Tricks) with bash
+  - `git lfs install` is needed before `git lfs pull`.
+  - [Aliases can be unset](https://stackoverflow.com/questions/23512402/how-can-i-delete-a-git-alias) with `git config --global --unset`
+- Resources
+  - [Official Git reference documentation](https://git-scm.com/docs)
+  - [(Official?) Pro Git book online](https://git-scm.com/book/en/v2)
+  - [How to explain git in simple words?](https://smusamashah.github.io/blog/2017/10/14/explain-git-in-simple-words)
+  - [How to teach Git](https://rachelcarmena.github.io/2018/12/12/how-to-teach-git.html)
+  - [How to verify commits on github via GPG key](https://daily-dev-tips.com/posts/how-to-verify-your-commits-on-github/) + [use Apple Keychain to store GPG Passphrases](https://gist.github.com/koshatul/2427643668d4e89c0086f297f9ed2130)
+
+# `zsh` shell
+- zsh is an alternative shell to bash. It is the default in newer Macs [for licensing reasons](https://scriptingosx.com/2019/06/moving-to-zsh/).
+- Oh My Zsh (OMZ) is a plugin framework for zsh with [a few builtins](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet):
+  - `omz --help` to get available commands
+  - `omz update` to update oh my zsh
+  - `omz reload` to apply changes made in .zshrc. Do not run source ~/.zshrc.
+  - `..` = `cd ..` goes to parent directory
+  - `...` = `cd ../..` goes to grandparent directory, also works for great-great-grandparent.
+  - `d` = `dirs -v`, lists last visited directories
+  - `-` = `cd` to last visited directory
+  - `{1..9}` = cd to nth last visited directory in dir stack
+- All plugins: `plugins=(git colored-man-pages zsh-autosuggestions zsh-syntax-highlighting docker)`
+- [OMZ git plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git) most commonly used aliases:
+  - `gsb` = `git status -sb`
+  - `gco` = `git checkout`
+  - `gcb` = `git checkout -b`
+  - `gcm` = `git checkout $(git_main_branch)`
+  - `ga` = `git add`
+  - `gcmsg` = `git commit -m`
+  - `gcam` = `git commit -a -m`
+  - `gl` = `git pull`
+  - `gp` = `git push`
+  - `gpsup` = `git push --set-upstream origin $(git_current_branch)`
+  - `glol` = `git log` with pretty one-line view
+  - `glols` = `git log` with pretty view showing changes
+  - `gsu` = `git submodule update`
+- powerlevel10k theme
+  - Use [Iosevka patched with Nerd Fonts](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/Iosevka) so that extra symbols are available.
+- [zsh-syntax-highlighting external plugin](https://github.com/zsh-users/zsh-syntax-highlighting).
+- [zsh-autosuggestions external plugin](https://github.com/zsh-users/zsh-autosuggestions)
+- Resources
+  - ["Moving to zsh" multi-part article](https://scriptingosx.com/2019/06/moving-to-zsh/)
+  - [Configuring VSCode to work with zsh](https://linuxpip.org/vscode-zsh/)
+
+# Docker
+
+- Docker wraps code, runtime, system tools, and libraries into a complete filesystem that can be mounted and run on any environment that supports the Docker Engine.
+  - **Containers** are instantiated by the Docker Engine on the host machine.
+  - **Images** are the executable packages run by Docker Engine on the host machine.
+  - **Layers** are the subcomponents of images. Since they are independent, changes to one layer does not require rebuilding other layers.
+- **Dockerfiles** specify [commands](https://docs.docker.com/engine/reference/builder/) to be executed to assemble an image, including:
+  - `FROM` sets the base image from which all other commands are run. This must be first.
+  - `RUN` specifies a command to be run on the image, e.g. adding dependencies
+  - `COPY` copies files from the local file system to the image.
+  - `ADD` is similar to `COPY`, except with support for URLs and untarring.
+  - `EXPOSE` defines the ports exposed at runtime, with mapping defined at runtime.
+- Docker CLI commands
+  - `docker build` builds an image from a Dockerfile.
+  - `docker image ls` lists Docker images currently stored on the current host machine.
+  - `docker container ls` lists Docker containers currently running on the host machine.
+  - `docker ps` lists Docker containers currently running on the host machine.
+  - `docker image ls` lists Docker images currently stored on the host machine. Note that the SIZE column double counts disk space used by layers in multiple images.
+  - `docker container ls` lists Docker containers currently running on the host machine.
+  - `docker run` TODO: add explanation
+  - `docker exec <image-id> -- <command>` performs the specified command on a running container, e.g. launch an interactive shell.
+- Docker cleanup instructions
+  - `docker system df -v` lists disk usage by images, containers, and volumes ([docs](https://docs.docker.com/engine/reference/commandline/system_df/)).
+  - `docker system prune --volumes` will remove stopped containers, unused networks, dangling images, build cache, and volumes ([docs](https://docs.docker.com/config/pruning/)).
+  - `docker image rm -f <image-ids>` to remove obsolete and large images.
+
+# `apt` package manager for Linux/Ubuntu
+- `dpkg` is the packaging system for Debian Linux, from which Ubuntu is derived.
+- APT (Advanced Package Tool) is a friendlier command-line wrapper around dpkg.
+  - `sudo apt update` will update the local database of available packages.
+  - `sudo apt upgrade` will upgrade all packages that have available updates.
+  - `sudo apt install` will install a new package or upgrade the existing one, if already installed.
+  - `sudo apt remove` will uninstall a package, except for residue configuration files.
+  - `sudo apt purge` will uninstall a package, including residue configuration files.
+  - `apt search` will find all packages containing a search term.
+  - `apt show` will display information about a package before installing or removing.
+  - `apt list [--installed|--upgradeable]` will list installed packages (that can be upgraded).
+  - `sudo apt autoremove` will remove packages installed automatically to satisfy the dependencies of other packages that have since been removed.
+  - `sudo apt-key adv --keyserver <server> --recv-keys <key>` fixes the error "The following signatures couldn't be verified because the public key is not available" ([docs](https://chrisjean.com/fix-apt-get-update-the-following-signatures-couldnt-be-verified-because-the-public-key-is-not-available/)).
+- Resources
+  - [It’s FOSS - apt command guide](https://itsfoss.com/apt-command-guide/)
+  - [Ubuntu Help - Managing Repositories](https://help.ubuntu.com/community/Repositories/CommandLine)
+
+# Homebrew (brew) package manager for MacOS
+- Homebrew is the "missing package manager for MacOS" similar to `apt` or `dpkg` from Linux.
+  - **Tap** is a remote git repository of package(s). The default is `homebrew/core`.
+  - **Formula** is a package definition stored in the Tap.
+  - **Keg** is the installation directory of a single version of a Formula.
+  - **Rack** is the directory containing one or more versions of a Formula.
+  - **Cellar** is the local directory containing one or more Racks.
+  - **Cask** is a Formula that installs native MacOS applications.
+  - **Bottle** is a pre-built keg, used instead of building from source.
+- Updating Homebrew and taps
+  - **`brew update`** will update brew itself as well as all formulae.
+  - **`brew tap`** lists current taps.
+    - `brew tap user/repo` adds a new tab from Github user `user` and their repo `repo`.
+    - `brew tap user/repo url` clones from a tap hosted somewhere other than Github.
+- Interacting with formulae
+  - **`brew list`** will list all installed formulae.
+  - **`brew search name`** will search for packages matching `name`.
+  - **`brew install <package>`** will install `package`.
+  - **`brew uninstall <package>`** will uninstall `package`.
+- Upgrading formulae
+  - `brew outdated` lists all outdated formulae
+  - **`brew upgrade [--dry-run]`** will update all taps and then upgrade their formulae.
+    - **`brew upgrade <package>`** will only upgrade `package`.
+  - `brew autoremove [--dry-run]` will remove formulae that were only installed as a dependency that is no longer needed.
+  - `brew cleanup` will remove old versions, lock files, outdated files, etc.
+
+# Python environments: pip, virtualenv, pipenv, conda
+- Virtual Environments
+  - **System packages** are built-in to the standard Python library.
+  - **Site packages** are third party libraries that are installed separately in a folder specified by `import site; site.getsitepackages()`. But this doesn’t disambiguate versions.
+  - **Virtual Environments** are isolated environments that allows each project to have its own dependencies, or different versions of the same dependencies.
+  - **`pip install -r requirements.txt`** installs all dependencies in `requirements.txt`. Certain versions of dependencies can be pinned, e.g. `flask==0.12.1`. But this can still cause [dependency hell](https://en.wikipedia.org/wiki/Dependency_hell).
+- Virtual Environments with **`pipenv`**
+  - `pipenv` allows for deterministic builds without being responsible for updating versions of sub-dependencies in the `requirements.txt` file. It wraps both `pip` and `virtualenv`.
+  - The current directory is the key for the environment; changing its name will break the link.
+  - `pipenv install <package>[==<version]` installs a package for the current virtual environment, with an optional specified version, which is saved in the **`Pipfile`**.
+    - `[dev-packages]` lists packages only needed for development. , installed with `pipenv --dev install`.
+  - `Pipfile.lock` stores a snapshot of dependencies set (as hashes) by pipenv lock.
+    - In prod, `pipenv install --ignore-pipfile` installs from `Pipfile.lock` instead of `Pipfile`, similar to `pip freeze`.
+- Virtual Environments with **`Conda`**
+  - **Conda** is a more broad package, environment, and dependency management system than pip since it is designed to work for all languages, not just Python.
+  - **Anaconda** is a distribution of lots of software used in data science via Conda.
+  - **Miniconda** is a distribution with minimal software to “start from scratch”.
+  - **`conda env list`** lists all environments currently available.
+  - **`conda create --name my_env`** creates a new environment my_env. Use the `python=3.x` flag to specify the version of Python to use.
+  - **`conda activate my_env`** activates the environment my_env. deactivate returns to base.
+  - **`conda env remove -n my_env`** deletes the specified environment.
+  - **`conda list`** lists all packages installed in the current environment.
+  - **`conda search`** searches current channels for a given package, accepting wildcards.
+  - **`conda install`** solves dependencies and installs a package after prompting.
+    - `--dry-run` flag will always stop before performing installation.
+    - `-c <channel>` will search for the package in alternate channel `channel`.
+  - **`conda update`** will update the specified package, or use --all flag to update everything.
+  - **`pip install`** commands install to the current Conda environment!
+  - **`conda env export`** generates a YML-formatted file with the environment for sharing.
+  - **`conda clean`** TODO: add explanation
+  - **`conda remove --name my_env --all`** removes an environment and all installed packages.
+- pip-tools
+  - pip-compile TODO: add explanation and example
+- Resources
+  - [Real Python: Python Virtual Environments - A Primer](https://realpython.com/python-virtual-environments-a-primer/)
+  - [Real Python: Pipenv - A Guide to the New Python Packaging Tool](https://realpython.com/pipenv-guide/)
+  - [Conda: Myths and Misconceptions](https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/)
+  - [Real Python: Setting Up Python for Machine Learning on Windows](https://realpython.com/python-windows-machine-learning-setup/)
+
+# Python fundamentals
+- ["Pass-by-assignment"](https://realpython.com/defining-your-own-python-function/#argument-passing-summary) is how arguments are passed in Python.
+  - **Immutable object parameters are passed by value**, e.g. int, str, tuple, frozenset. Reassigning rebinds the variable only in the function's scope rather than replacing the original object.
+  - **Mutable object parameters are sort of like pass-by-reference**: they can't reassign the object wholesale, but they can make in-place changes within the object e.g. dictionary updates.
+  - Returning data to the caller is better practice rather than relying on in-place side effects.
+- **Keyword-only parameters**: `f(*args, kw='foo')` means `kw` must be specified by name.
+- **Positional-only parameters**: `f(x, y, /, z)` means `x` and `y` must be specified by position.
+- [LEGB Rule](https://realpython.com/python-scope-legb-rule/) is the ordering in which Python resolves names
+  - **Local (or function) scope** is the code block of a function.
+  - **Enclosing (or nonlocal) scope** encloses an inner/nested function (somewhat rare).
+  - **Global (or module) scope** contains named defined at the top level of a program or module.
+  - **Built-in scope** contains Python's built-in keywords, functions, exceptions, etc.
+- Operators
+  - `x or y` returns `x` if `x` is truthy, otherwise it returns `y`.
+  - `x and y` returns `x` if `x` is falsey, otherwise it returns `y`. This can be used to chain function calls conditionally, e.g. `Path.exists() and Path.read_text()`.
+- String tricks
+  - **Test alphabetic/numeric/alphanumeric** with `str.isalpha()`, `str.isnumeric()`, `str.isalnum()`. Can also check case with `str.islower()`, `str.isupper()`.
+  - Split a string on line separator with `str.splitlines()`.
+  - `str.removeprefix()` and `str.removesuffix()` added in Python 3.9.
+- [F-strings](https://docs.python.org/3/library/string.html#format-specification-mini-language): `[[fill]align][sign][#][0][width][grouping_option][.precision][type]`.
+  - `fill` is character to use to fill to meet width; default `' '`; placement depends on `align`.
+  - `align`: `<` for left, `>` for right, `=` for after sign but before digits (numbers only).
+  - `sign` of minus `-` includes sign on negatives only (default), plus `+` includes for positives and negatives, space ' ' includes leading space on positive and minus sign on negatives.
+  - `width` integer specifies minimum width of string (including prefixes, separators, etc.)
+  - `grouping_option` of comma `,` will include thousands separators for large numbers.
+  - `precision` specifies fixed number of decimals to round floats to; use with `type` of `f`.
+  - Example: `f'{1e6:@<+17,.2f}' == '+1,000,000.00@@@@'`.
+- [Built-in functions](https://docs.python.org/3/library/functions.html) of note
+  - `dir(module)` returns a list of defined names in a namespace, default is current namespace.
+  - `type(obj)` print out the type of class `obj`.
+  - `help(class_or_func)` print out the docstring of class/function `class_or_func`.
+  - `divmod(a, b)` returns integer quotient and remainder, i.e. `(a // b, a % b)`.
+  - `sorted()`, `max()`, and `min()` have optional `key` parameter defining how comparison key is extracted. Example: to sort objects by length, use `sorted(iterable, key=len)`.
+  - `filter(func, iterable)` applies filter function `func`, only returning elements of iterable that return `True` when an argument to `func`.
+  - `sum(iterables, [])` concatenates interables together.
+  - TODO: Add more based on [this article](https://docs.python.org/3/library/functions.html)
+- List tricks
+  - **Reverse arrays/strings** via negative step in slicing, e.g. `arr[::-1]` is reverse of iterable `arr`.
+  - **Transpose** an iterable of iterables with `zip()`.
+  - For array `arr` of size `n`, to index an element `i` spaces from the last, instead of doing `arr[n-i-1]` you can just do `arr[~i]` which uses bitwise complement to get `~i == -i - 1`.
+  - **Rotate a 2D** array by flipping rows (or columns) and then transpose.
+  - `list.pop()` removes *last* element of list in O(1) time, `list.pop(0)` removes *first* element in O(n) time.
+    - Use `collections.deque` for both of these to be O(1) time.
+- Inheritance vs. composition
+  - **Inheritance models "is a" relationships**: the subclass (aka derived class, subtype) inherits (aka extends, derives) from a base class (aka super class).
+    - **Abstract base classes** exist to be inherited but never instantiated. Derive from `abc.ABC` to prevent instantiation and use `@abc.abstractmethod` to require implementation of decorated methods in subclasses.
+    - **Multiple inheritance**, i.e. subclassing multiple superclasses, *is* allowed in Python. It obeys method resolution order (MRO) in `__mro__`.
+  - **Composition models "has a" relationships**: the composite class contains one or more of the component classes (the cardinality may be specified in UML diagrams).
+
+- TODO: all [walrus operator](https://realpython.com/python-walrus-operator/)
+- TODO: add @staticmethod, @classmethod
+- TODO: add [@property, @property.seter, @property.deleter](https://realpython.com/python-property/)
+- TODO: operator precedence
+
+# Python built-in modules
+- [**`math` module**](https://docs.python.org/3/library/math.html) contains many basic mathematical helpers that don't require NumPy.
+  - **`isfinite()`**, **`isinf()`**, **`isnan()`** test whether a float is finite, infinite, or `NaN`.
+  - **`isclose(a, b, rel_tol=1e-9, abs_tol=0.0)`** tests closeness of two values e.g. avoiding floating point errors; also see [`numpy.isclose`](https://numpy.org/doc/stable/reference/generated/numpy.isclose.html) and [`pytest.approx`](https://docs.pytest.org/en/stable/reference.html#pytest-approx).
+  - `ceil()`/`floor()` return integer greater/less than or equal to argument.
+  - Trigonometric functions use **radians** (`cos`, `sin`, `tan`, `acos`, `asin`, `atan`, `atan2`), use **`degrees()`** and **`radians()`** to perform necessary conversions.
+  - **`atan2`** is recommended over **`atan`** since it computes the correct quadrant of an angle via sign.
+  - **`dist(p, q)`** returns distance between points p and q; hypot(*p) is distance from origin.
+  - **`log2(x)`** and **`log10(x)`** are more accurate shortcuts over **`log(x, base)`**.
+  - **Constants** `pi`, `e`, `inf`, `nan` are self-explanatory.
+- [**`csv` module**](https://docs.python.org/3/library/csv.html) is for reading and writing separated-value files like CSV, TSV, etc
+  - **`reader(list_or_file)`** iterates over lines of an input file.
+  - **`writer(list_or_file)`** writes output using `.writerow(list_of_cols)`.
+  - **`DictReader(list_or_file)`** reads input into dictionaries using the header in the first line (or provided in `fieldnames` optional kwarg).
+  - **`DictWriter(list_or_file, fieldnames)`** writes dictionaries to an output file.
+- **`collections`** module contains some helpful data structures
+  - **`deque([])`** creates a double-ended queue object.
+    - `q.popleft()` pops from the left of a deque in O(1) time, not O(n) time as in a list.
+    - `q.appendleft()` appends to the left of a deque in O(1) time, not O(n) time as in a list.
+  - **`Counter(iterable)`** returns dictionary mapping items to counts in `iterable`.
+    - Indexing an item that was not present in `iterable` returns `0` rather than `KeyError`.
+    - `elements()` returns iterator over elements with the correct number of repetitions.
+    - `Counter.most_common([n])` returns the n most common elements, ties broken arbitrarily.
+  - **`defaultdict()`** is a subclass of dictionary that automatically instantiates value objects when a key is not present instead of raising `KeyError`.
+    - Example 1: `d = defaultdict(list)` will create an empty list so that `d[k].append(v)` when `k` is not present will create a new list before appending `v` to it.
+    - Example 2: `d = defaultdict(int)` creates integer `0` so `d[k] += 1` when `k` is not present starts counter at `0` before incrementing.
+    - Defaults are normally implemented on a per-key basis using the built-in `d.setdefault(k, func)` function.
+- [**`itertools` module**](https://docs.python.org/3/library/itertools.html) contains helpers for working with iterables
+  - **`chain(*seqs)`** returns elements from each sequence in `seqs`, "flattening" them.
+  - **`combinations(p, r)`** returns every *combination* of `r` elements from `p`.
+  - **`permutations(p, r)`** returns every *permutation* of `r` elements from `p`.
+  - **`groupby(iter, key)`** returns groups of consecutive elements from `iter` that have the same value when passed to the `key` function, like POSIX `uniq`. Typically, `sorted(iter)` is desirable.
+- [**`functools` module**](https://docs.python.org/3/library/functools.html)
+  - **`functools.reduce(func, iterable)`** applies aggregation function func to elements of iterable in a rolling manner that is faster than a for-loop.
+  - **`@functools.lru_cache(maxsize=n)`** caches up to n results from the decorated function.
+  - **`functools.partial()`** "freezes" a portion of a function's arguments, but still allows overriding.
+    - TODO: add example
+- [**`operator` module**](https://docs.python.org/3/library/operator.html)
+  - **`operator.attrgettr(*attrs)`** returns a function that reads attrs from its operand.
+  - **`operator.itemgettr(*attrs)`** returns a function that gets attrs from its operand.
+- TODO: random (seed, random number in range, random integer in range, random choice from sequence)
+- TODO: pathlib
+- TODO: datetime
+- TODO: pprint
+- TODO: heapq
+- TODO: tempfile
+- TODO: glob, including `iglob`, `recursive`
+- TODO: shutil
+- TODO: csv
+- TODO: argparse, including [clever way to test via argv params](https://jugmac00.github.io/blog/testing-argparse-applications-the-better-way/)
+- TODO: typing
+- TODO: dataclasses
+- TODO: os, including `is_file` versus `is_exists`
+
+# Python concurrency
+- Basics
+  - **Concurrency** means the flows of tasks overlap in time, otherwise they are sequential. This includes a broad number of sub-concepts.
+  - **Parallelism** is one kind of concurrency that runs separate processes simultaneously on different cores: `multiprocessing` in Python.
+  - **Preemptive multitasking** has the OS decide when to switch threads; such switches can happen at any time but it is simple to code: `threading` in Python.
+  - **Cooperative multitasking** has threads decide when to switch, limiting when switches can happen but requiring more code: `asyncio` in Python.
+- Python concurrency with `threading`.
+  - **Preemptive multitasking**: OS decides when to switch threads.
+  - **`concurrent.futures.ThreadPoolExecutor`** is abstraction that simplifies starting, managing, and joining threads.
+  - **`threading.local()`** creates variables local to each thread.
+- Python concurrency with `asyncio` tasks.
+  - **Cooperative multitasking**: tasks explicitly return control.
+    - Tasks are lighter-weight than threads, so it scales very well.
+  - **Event loop** controls how and when tach task gets run.
+    - **`asyncio.get_event_loop()`** returns this object.
+    - **`asyncio.run()`** was introduced in Python 3.7 as a replacement for **`loop.run_until_complete()`**.
+  - **`Coroutines`** are functions that can suspend execution before reaching return, allowing another coroutine to run for awhile.
+    - Like generators, coroutines can't just be called, they have to be scheduled with `asyncio.run()` or `await`.
+  - Native coroutines available in Python 3.5+
+    - **`await`** keyword returns control back to event loop while waiting for the awaitable object e.g. another coroutine.
+    - **`async def`** means defined function can use `await`.
+    - **`async with`** means context manager can be awaited.
+  - Generator-based coroutines will be removed in Python 3.10
+    - `@asyncio.coroutine decorator` is like `async def`.
+    - `yield from` is like `await`.
+  - **`asnycio.gather`** collects coroutines/futures into a single future.
+  - **`asyncio.Queue`** supports arbitrary, unrelated producers adding items to a queue from which consumers remove items.
+  - **`async for`** does not make generators/comprehensions concurrent, it just allows the enclosing function to allow other tasks to run.
+- Python concurrency + parallelism with `multiprocessing` processes.
+  - This creates processes with independent interpreters.
+  - **`multiprocessing.Pool`** can use map to apply a function to an iterable in parallel.
+  - **`initializer`** persists objects within a process across calls.
+  - TODO: add ProcessPoolExecutor
+  - TODO: mention pebble library and its advantages
+- Resources
+  - [Speed Up Your Python Program With Concurrency](https://realpython.com/python-concurrency/)
+  - [Async IO in Python: A Complete Walkthrough](https://realpython.com/async-io-python/)
+
+
+# Python debugger (`pdb`)
+- Triggering the debugger:
+  - Manual method: **`import pdb; pdb.set_trace()`**.
+  - Command line flag: **`python -m pdb app.py arg1 arg2`**.
+  - Python 3.7+: **`breakpoint()`** which can be configured with environment variables.
+  - **Prompt shows the next line of code** which has yet to be executed.
+- Navigation
+  - **`n(ext)` steps over**, i.e. executes until reaching **next** line in current block (or returning).
+  - **`s(tep)` steps into**, i.e. executes but stops as soon as possible, perhaps in a called function.
+  - **`c(ont(inue))` continues** execution until another breakpoint is found.
+  - **`r(eturn)`** continues execution until the current function returns.
+  - **`unt(il)`** executes until reaching farther than current position or the specified line.
+  - **`j(ump)`** jumps to skip or re-execute code.
+  - **`Enter`** key **repeats** last command.
+  - **`l`** and **`ll`** shows the source code context around the current position; `ll` prints more.
+  - **`w(here)`** shows the stack trace with the most recent frame on the bottom.
+  - **`u <i>`** moves up `i` levels in the stack trace to an older frame, default `1` if no `i`.
+  - **`d <i>`** moves down `i` levels in the stack trace to a newer frame, default `1` if no `i`.
+- Display
+  - **`p my_var`** prints the contents of variable my_var.
+  - **`pp my_var`** pretty-prints the contents of variable my_var.
+  - **`a(rgs)`** prints the argument list of the current function.
+  - **`whatis <exp>`** prints the type of `<exp>`.
+  - **`display [exp]`** adds `expr` to a list that is shown each time execution stops. With no arguments, this shows all display expressions, like a watch list.
+  - **`undisplay [expr]`** removes `expr` from display list. With no arguments, removes all items.
+  - **`!` prefix** escapes any pdb commands to display variables that collide with command names.
+- Breakpoints
+  - **`b(reak)`** with no arguments lists current breakpoints.
+  - **`b my_file:5`** adds a breakpoint in `my_file.py` at line `5`.
+  - **`b my_file:my_func`** adds a breakpoint in `my_file.py` at function `my_func`.
+  - **`b my_file:5`**, if not flag adds a conditional breakpoint on value of flag variable.
+  - **`cl(ear)`** disables breakpoints by their number or `file:line` or `file:function`.
+  - **`enable <num>`** and **`disable <num>`** turn breakpoints on and off by their number.
+  - **`q(uit)` quits** debugging and exits pdb.
+- Resources
+  - [Real Python: Python Debugging with pdb](https://realpython.com/python-debugging-pdb/)
+
+# Testing and PyTest
+- Tests typically fall into a few different types
+  - **Unit tests** examine the functionality of a single component.
+    - These tests should be able to be executed extremely fast, e.g. in a split second.
+  - **Integration tests** examine the functionality of multiple components that work together.
+- Parts of a test
+  - **Importing** the methods to be tested
+    - Typically the file must be a module with an `__init__.py` file.
+    - A workaround for scripts is to use the built-in `__import__('script.py')` function.
+  - **Test steps** are the individual tests, e.g. unit or integration.
+  - **Test assertion** compares the result of an input against a known correct output via the assert statement which returns a Boolean. If false, it throws an AssertionError.
+  - **Fixtures** are data created as input to tests, commonly reused between tests.
+    - `setUp` method is run before all test methods so it can initialize fixtures, e.g. creating a local instance of a database that loads some dummy data.
+    - `responses` library complements the requests library for HTTP fixtures.
+- **Test runners** executes tests as part of scripted, **automated testing**.
+  - `unittest` is the built-in test runner.
+    - Tests inherit from `unittest.TestCase` base class.
+    - It requires non-native assertions, e.g. `self.assertEqual()` rather than `assert`.
+  - `nose`, later forked to `nose2`, can be used as a drop-in replacement to `unittest`.
+    - Automatically discovers test scripts named `test*.py`.
+    - Automatically discovers test cases inheriting from `unittest.TestCase`.
+  - `pytest` is another very popular test runner.
+    - Supports the built-in `assert` statement rather than special methods.
+    - Automatically discovers test scripts named `test_*.py` or `*_test.py`.
+    - Automatically discovers test cases in functions and classes whose names are prefixed with `test`, as well as anything inheriting from `unittest.TestCase`.
+- Pytest command line arguments
+  - **`-m`** runs tests as a module, similar to python -m.
+  - **`-k <expr>`** selects tests whose names match string expression `<expr>`.
+    - This can contain operators, e.g. `MyClass and not method`.
+    - Select a single test: `module::func` or `module::Class::method`.
+  - **`-x`** stops after the first failure
+  - **`--pdb`** drops into PDB on errors; often combined with `-x`.
+  - **`--trace`** drops into PDB at the start of *every* test.
+  - **`--lf`** reruns only the test(s) that failed the last time Pytest was run.
+  - **`-v`** shows verbose output; **`--vv`** shows extra verbose output.
+  - **`--tb={auto,no,line,short,native,long}`** controls the size of the traceback.
+  - **`--show-capture={no,stdout,stderr,log,all}`** controls how captured output is shown on failed tests.
+  - **`-s`** disables capturing so output (e.g. print statements) are passed along as normal.
+  - **`--durations=N`** shows `N` slowest test durations (`0` for all).
+- Mock objects are used to replace complex entities in tests using the `unittest.mock` module.
+  - **`MagickMock`** is a subclass of **`unittest.mock.Mock`** with most magic methods pre-defined.
+  - **`patch('obj')`** will replace the selected obj with a MagicMock .
+    - **Decorator form** passes the mock as an argument to the decorated function.
+    - **Context manager** form mocks the object for a more limited scope.
+    - **Manual form** uses **`start()`** and **`stop()`** but the latter should be called in tear down.
+    - **`patch.object`** will mock only one method of an object rather than the whole thing.
+    - **`patch.dict`** will patch a dictionary-like object and restore its state afterwards.
+    - **`wraps`** kwarg passes calls through to the specified object, which is useful when just spying on the mocked objects behavior without changing it.
+  - **`return_value`** attribute sets simple, unchanging return value.
+  - **`side_effect`** sets an iterable of return values and/or exceptions for a mock called multiple times, or a function that is called by the mock.
+  - **`Mock(spec=...)`** is a specification for the mocked object.
+  - **`call_count`**, **`call_args`**, and **`call_args_list`** attributes expose the number of calls, the last call's arguments, and the list of all calls' arguments.
+  - **`assert_not_called()`**, **`assert_called()`**, and **`assert_called_once()`** check that the mocked function was called exactly zero, at least once, and exactly one time.
+  - **`assert_any_call()`**,  **`assert_called_with()`**,  **`assert_called_once_width()`** check that any, the last, or the only call of the mocked function used the specified args and kwargs.
+  - **`reset_mock()`** resets the call attributes on the mock object.
+  - **`unittest.mock.ANY`** is "equal" to everything such that that arg/kwarg is ignored.
+- Resources
+  - [Real Python: Getting Started with Testing in Python](https://realpython.com/python-testing/)
+  - [Real Python: Understanding the Python Mock Object Library](https://realpython.com/python-mock-library/)
+
+# TODO: NumPy
+- Basics: shape, size, dtypes, resize, axes
+- Conversion: tolist, to/from text files, npy pickling,
+- Indexing: range, with another array
+- Creation: zeroes, ones, random, nan
+- Comparisons: array_equal
+- Masked arrays

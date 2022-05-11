@@ -233,14 +233,17 @@
   - **Test alphabetic/numeric/alphanumeric** with `str.isalpha()`, `str.isnumeric()`, `str.isalnum()`. Can also check case with `str.islower()`, `str.isupper()`.
   - Split a string on line separator with `str.splitlines()`.
   - `str.removeprefix()` and `str.removesuffix()` added in Python 3.9.
-- [F-strings](https://docs.python.org/3/library/string.html#format-specification-mini-language): `[[fill]align][sign][#][0][width][grouping_option][.precision][type]`.
+- [F-strings](https://docs.python.org/3/reference/lexical_analysis.html#formatted-string-literals) use the [Format Specification mini-language](https://docs.python.org/3/library/string.html#formatspec): `[[fill]align][sign][#][0][width][grouping_option][.precision][type]`.
   - `fill` is character to use to fill to meet width; default `' '`; placement depends on `align`.
-  - `align`: `<` for left, `>` for right, `=` for after sign but before digits (numbers only).
+  - `align`: `<` for left, `>` for right, `^` for center, `=` for after sign but before digits (numbers only).
   - `sign` of minus `-` includes sign on negatives only (default), plus `+` includes for positives and negatives, space ' ' includes leading space on positive and minus sign on negatives.
   - `width` integer specifies minimum width of string (including prefixes, separators, etc.)
   - `grouping_option` of comma `,` will include thousands separators for large numbers.
   - `precision` specifies fixed number of decimals to round floats to; use with `type` of `f`.
   - Example: `f'{1e6:@<+17,.2f}' == '+1,000,000.00@@@@'`.
+  - Datetime example: `f'{datetime.datetime.now():%Y-%m-%d}' == '2022-05-11'` using [`strftime` syntax](https://docs.python.org/3/library/datetime.
+  html#strftime-and-strptime-behavior).
+  - Debugging example: given `x = 10`, `f'{x=}' == 'x=10'`.
 - [Built-in functions](https://docs.python.org/3/library/functions.html) of note
   - `dir(module)` returns a list of defined names in a namespace, default is current namespace.
   - `type(obj)` print out the type of class `obj`.
@@ -320,6 +323,7 @@
 - TODO: argparse, including [clever way to test via argv params](https://jugmac00.github.io/blog/testing-argparse-applications-the-better-way/)
 - TODO: typing
 - TODO: dataclasses
+- TODO: abc
 - TODO: os, including `is_file` versus `is_exists`
 
 # Python concurrency

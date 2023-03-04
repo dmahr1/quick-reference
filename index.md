@@ -463,7 +463,7 @@
   - [Real Python: Understanding the Python Mock Object Library](https://realpython.com/python-mock-library/)
 
 # TODO: NumPy
-- Basics: shape, size, dtypes, resize, axes
+- Basics: shape, size, dtypes, resize, axes, [reshape with -1](https://realpython.com/numpy-reshape/#use-1-as-an-argument-in-numpy-reshape)
 - Conversion: tolist, to/from text files, npy pickling,
 - Indexing: range, with another array
 - Creation: zeroes, ones, random, nan

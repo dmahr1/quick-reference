@@ -325,6 +325,7 @@
 - TODO: dataclasses
 - TODO: abc
 - TODO: os, including `is_file` versus `is_exists`
+- TODO: typing, what's available in what version (e.g. `|`), protocol
 
 # Python concurrency
 - Basics

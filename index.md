@@ -457,6 +457,15 @@
   - **`assert_any_call()`**,  **`assert_called_with()`**,  **`assert_called_once_width()`** check that any, the last, or the only call of the mocked function used the specified args and kwargs.
   - **`reset_mock()`** resets the call attributes on the mock object.
   - **`unittest.mock.ANY`** is "equal" to everything such that that arg/kwarg is ignored.
+- [Pytest fixtures](https://docs.pytest.org/en/stable/how-to/fixtures.html)
+  - Functions decorated with `@pytest.fixture` are registered as a fixture during [Pytest's discovery aka collection step](https://docs.pytest.org/en/stable/explanation/goodpractices.html#conventions-for-python-test-discovery).
+  - The fixtures are injected into test functions containing a named argument that is the same name as the fixture.
+  - Fixtures themselves can use other fixtures via the same named keyword argument pattern.
+  - Fixtures could be constants, instantiated objects, mocks, or callables that create yet other fixtures.
+  - TODO: fixture scopes - function, class, module, package or session
+  - TODO: fixture autouse
+  - TODO: fixture cleanup using `yield`
+  - TODO: [parameterized tests](https://docs.pytest.org/en/stable/how-to/parametrize.html#pytest-mark-parametrize-parametrizing-test-functions)
 - Resources
   - [Real Python: Getting Started with Testing in Python](https://realpython.com/python-testing/)
   - [Real Python: Understanding the Python Mock Object Library](https://realpython.com/python-mock-library/)

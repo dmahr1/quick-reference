@@ -265,7 +265,6 @@
     - **Abstract base classes** exist to be inherited but never instantiated. Derive from `abc.ABC` to prevent instantiation and use `@abc.abstractmethod` to require implementation of decorated methods in subclasses.
     - **Multiple inheritance**, i.e. subclassing multiple superclasses, *is* allowed in Python. It obeys method resolution order (MRO) in `__mro__`.
   - **Composition models "has a" relationships**: the composite class contains one or more of the component classes (the cardinality may be specified in UML diagrams).
-
 - TODO: all [walrus operator](https://realpython.com/python-walrus-operator/)
 - TODO: add @staticmethod, @classmethod
 - TODO: add [@property, @property.seter, @property.deleter](https://realpython.com/python-property/)

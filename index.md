@@ -241,8 +241,7 @@
   - `grouping_option` of comma `,` will include thousands separators for large numbers.
   - `precision` specifies fixed number of decimals to round floats to; use with `type` of `f`.
   - Example: `f'{1e6:@<+17,.2f}' == '+1,000,000.00@@@@'`.
-  - Datetime example: `f'{datetime.datetime.now():%Y-%m-%d}' == '2022-05-11'` using [`strftime` syntax](https://docs.python.org/3/library/datetime.
-  html#strftime-and-strptime-behavior).
+  - Datetime example: `f'{datetime.datetime.now():%Y-%m-%d}' == '2022-05-11'` using [`strftime` syntax](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
   - Debugging example: given `x = 10`, `f'{x=}' == 'x=10'`.
 - [Built-in functions](https://docs.python.org/3/library/functions.html) of note
   - `dir(module)` returns a list of defined names in a namespace, default is current namespace.

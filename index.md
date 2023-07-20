@@ -98,13 +98,16 @@
   - `glol` = `git log` with pretty one-line view
   - `glols` = `git log` with pretty view showing changes
   - `gsu` = `git submodule update`
+- Piping both stderr and stdout:
+  - Write: `./my_script.sh > my_log.txt 2>&1`
+  - Append: `./my_script.sh >> my_log.txt 2>&1`
 - powerlevel10k theme
   - Use [Iosevka patched with Nerd Fonts](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/Iosevka) so that extra symbols are available.
 - [zsh-syntax-highlighting external plugin](https://github.com/zsh-users/zsh-syntax-highlighting).
 - [zsh-autosuggestions external plugin](https://github.com/zsh-users/zsh-autosuggestions)
 - Resources
   - ["Moving to zsh" multi-part article](https://scriptingosx.com/2019/06/moving-to-zsh/)
-  - [Configuring VSCode to work with zsh](https://linuxpip.org/vscode-zsh/)
+  - [Configuring VSCode to work with zsh](https://linuxpip.org/vscode-zsh/) 
 
 # Docker
 

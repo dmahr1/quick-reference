@@ -271,6 +271,7 @@
 - TODO: add @staticmethod, @classmethod
 - TODO: add [@property, @property.seter, @property.deleter](https://realpython.com/python-property/)
 - TODO: operator precedence
+- TODO: dunder methods and common ones to override
 
 # Python built-in modules
 - [**`math` module**](https://docs.python.org/3/library/math.html) contains many basic mathematical helpers that don't require NumPy.

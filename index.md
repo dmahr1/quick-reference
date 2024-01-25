@@ -98,6 +98,8 @@
   - `glol` = `git log` with pretty one-line view
   - `glols` = `git log` with pretty view showing changes
   - `gsu` = `git submodule update`
+  - `gsta` = `git stash`
+  - `gstp` = `git stash pop`
 - Piping both stderr and stdout:
   - Write: `./my_script.sh > my_log.txt 2>&1`
   - Append: `./my_script.sh >> my_log.txt 2>&1`
@@ -107,7 +109,7 @@
 - [zsh-autosuggestions external plugin](https://github.com/zsh-users/zsh-autosuggestions)
 - Resources
   - ["Moving to zsh" multi-part article](https://scriptingosx.com/2019/06/moving-to-zsh/)
-  - [Configuring VSCode to work with zsh](https://linuxpip.org/vscode-zsh/) 
+  - [Configuring VSCode to work with zsh](https://linuxpip.org/vscode-zsh/)
 
 # Docker
 
@@ -222,6 +224,7 @@
   - **Immutable object parameters are passed by value**, e.g. int, str, tuple, frozenset. Reassigning rebinds the variable only in the function's scope rather than replacing the original object.
   - **Mutable object parameters are sort of like pass-by-reference**: they can't reassign the object wholesale, but they can make in-place changes within the object e.g. dictionary updates.
   - Returning data to the caller is better practice rather than relying on in-place side effects.
+  - TODO: add examples from [this article](https://mathspp.com/blog/pydonts/pass-by-value-reference-and-assignment).
 - **Keyword-only parameters**: `f(*args, kw='foo')` means `kw` must be specified by name.
 - **Positional-only parameters**: `f(x, y, /, z)` means `x` and `y` must be specified by position.
 - [LEGB Rule](https://realpython.com/python-scope-legb-rule/) is the ordering in which Python resolves names
@@ -254,7 +257,7 @@
   - `sorted()`, `max()`, and `min()` have optional `key` parameter defining how comparison key is extracted. Example: to sort objects by length, use `sorted(iterable, key=len)`.
   - `filter(func, iterable)` applies filter function `func`, only returning elements of iterable that return `True` when an argument to `func`.
   - `sum(iterables, [])` concatenates interables together.
-  - TODO: Add more based on [this article](https://docs.python.org/3/library/functions.html)
+  - TODO: Add more based on [this article](https://treyhunner.com/2019/05/python-builtins-worth-learning/) and [this doc](https://docs.python.org/3/library/functions.html).
 - List tricks
   - **Reverse arrays/strings** via negative step in slicing, e.g. `arr[::-1]` is reverse of iterable `arr`.
   - **Transpose** an iterable of iterables with `zip()`.
@@ -262,6 +265,24 @@
   - **Rotate a 2D** array by flipping rows (or columns) and then transpose.
   - `list.pop()` removes *last* element of list in O(1) time, `list.pop(0)` removes *first* element in O(n) time.
     - Use `collections.deque` for both of these to be O(1) time.
+- Exceptions ([official docs](https://docs.python.org/3/tutorial/errors.html), [RealPython tutorial](https://realpython.com/python-raise-exception/))
+  - Exceptions are raised for exceptional situations in code, including errors but also non-errors like `StopIteration` or as a "super" `break` to exit nested loops.
+  - The `raise` statement can be used in a few ways:
+    - `raise` with no argument: reraise the active exception. This can only be used within an `except` code block.
+    - `raise [Exception]` is an (instance of an) exception class that derives from `BaseException`.
+    - `raise [Exception2] from [Exception1]`
+  - There are over 60 [built-in exceptions](https://docs.python.org/3/library/exceptions.html#built-in-exceptions), including:
+    - `BaseException`: a base class not intended to be subclassed.
+    - `Exception`: the generic exception.
+    - `ImportError`: an `import` statement couldn't load a module.
+    - `ModuleNotFoundError`: an `import` statement couldn't find a module.
+    - `NameError`: the specified name couldn't be found in local or global scope.
+    - `AttributeError`: the attribute reference or assignment failed.
+    - `IndexError`: an indexing operation is out-of-range.
+    - `KeyError`: a key is missing in a dictionary-like object.
+    - `ZeroDivisionError`: a division denominator is zero.
+    - `TypeError`: the type of an object is wrong.
+    - `ValueError`: the value of an object wrong (but the type is OK).
 - Inheritance vs. composition
   - **Inheritance models "is a" relationships**: the subclass (aka derived class, subtype) inherits (aka extends, derives) from a base class (aka super class).
     - **Abstract base classes** exist to be inherited but never instantiated. Derive from `abc.ABC` to prevent instantiation and use `@abc.abstractmethod` to require implementation of decorated methods in subclasses.
@@ -272,6 +293,7 @@
 - TODO: add [@property, @property.seter, @property.deleter](https://realpython.com/python-property/)
 - TODO: operator precedence
 - TODO: dunder methods and common ones to override
+- TODO: naming conventions, e.g. snake_case vs. PascalCase, [meaning of underscores](https://realpython.com/python-double-underscore/#public-interfaces-and-naming-conventions-in-python).
 
 # Python built-in modules
 - [**`math` module**](https://docs.python.org/3/library/math.html) contains many basic mathematical helpers that don't require NumPy.
@@ -481,3 +503,12 @@
 - Creation: zeroes, ones, random, nan
 - Comparisons: array_equal
 - Masked arrays
+
+# TODO: design patterns
+- Strategy pattern
+- Factory pattern
+- Adapter pattern
+- Observer pattern
+- Visitor pattern
+- Decorator pattern
+-

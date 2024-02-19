@@ -505,6 +505,45 @@
 - Comparisons: array_equal
 - Masked arrays
 
+# Design principles
+- Summary of design principles from [*A Philosophy of Software Design*](https://www.goodreads.com/en/book/show/39996759)
+  - Complexity is incremental: you have to sweat the small stuff.
+  - Working code isn’t enough.
+    -  It’s not acceptable to introduce unnecessary complexities in order to finish your current task faster. The most important thing is the long-term structure of the system.
+  - Make continual small investments to improve system design.
+    - It isn’t possible to conceive the right design for a system at the outset; the design of a mature system is determined more by changes made during the system’s evolution than by any initial conception.
+  - Modules should be deep
+  - Interfaces should be designed to make the most common usage as simple as possible.
+  - It’s more important for a module to have a simple interface than a simple implementation
+  - General-purpose modules are deeper.
+  - Separate general-purpose and special-purpose code
+  - Different layers should have different abstractions.
+  - Pull complexity downward.
+  - Define errors out of existence.
+    - The best way to eliminate exception handling complexity is to define your APIs so that there are no exceptions to handle: define errors out of existence.
+  - Design it twice.
+    - Designing software is hard, so it’s unlikely that your first thoughts about how to structure a module or system will produce the best design.
+  - Comments should describe things that are not obvious from the code.
+    - Where “obvious” is from the perspective of someone reading your code for the first time (not you).
+  - Software should be designed for ease of reading, not ease of writing.
+  - The increments of software development should be abstractions, not features.
+  - Separate what matters from what doesn’t matter and emphasize the things that matter.
+- Red Flags from [*A Philosophy of Software Design*](https://www.goodreads.com/en/book/show/39996759), the presence of which suggest that there is a problem with the system's design
+  - Shallow Module: the interface for a class or method isn’t much simpler than its implementation.
+  - Information Leakage: a design decision is reflected in multiple modules.
+  - Temporal Decomposition: the code structure is based on the order in which operations are executed, not on information hiding.
+  - Overexposure: An API forces callers to be aware of rarely used features in order to use commonly used features.
+  - Pass-Through Method: a method does almost nothing except pass its arguments to another method with a similar signature.
+  - Repetition: a nontrivial piece of code is repeated over and over.
+  - Special-General Mixture: special-purpose code is not cleanly separated from general purpose code.
+  - Conjoined Methods: two methods have so many dependencies that its hard to understand the implementation of one without understanding the implementation of the other.
+  - Comment Repeats Code: all of the information in a comment is immediately obvious from the code next to the comment.
+  - Implementation Documentation Contaminates Interface: an interface comment describes implementation details not needed by users of the thing being documented.
+  - Vague Name: the name of a variable or method is so imprecise that it doesn’t convey much useful information.
+  - Hard to Pick Name: it is difficult to come up with a precise and intuitive name for an entity.
+  - Hard to Describe: in order to be complete, the documentation for a variable or method must be long.
+  - Nonobvious Code: the behavior or meaning of a piece of code cannot be understood easily.
+
 # TODO: design patterns
 - Strategy pattern
 - Factory pattern

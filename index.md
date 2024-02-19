@@ -180,6 +180,8 @@
     - **`brew upgrade <package>`** will only upgrade `package`.
   - `brew autoremove [--dry-run]` will remove formulae that were only installed as a dependency that is no longer needed.
   - `brew cleanup` will remove old versions, lock files, outdated files, etc.
+- Misc
+  - Setting `HOMEBREW_NO_AUTO_UPDATE=1` will prevent auto-updates from occurring.
 
 # Python environments: pip, virtualenv, pipenv, conda
 - Virtual Environments
@@ -250,6 +252,7 @@
   - Example: `f'{1e6:@<+17,.2f}' == '+1,000,000.00@@@@'`.
   - Datetime example: `f'{datetime.datetime.now():%Y-%m-%d}' == '2022-05-11'` using [`strftime` syntax](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
   - Debugging example: given `x = 10`, `f'{x=}' == 'x=10'`.
+- TODO: add raw strings via [this article](https://realpython.com/python-raw-strings/).
 - [Built-in functions](https://docs.python.org/3/library/functions.html) of note
   - `dir(module)` returns a list of defined names in a namespace, default is current namespace.
   - `type(obj)` print out the type of class `obj`.

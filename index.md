@@ -71,6 +71,7 @@
   - [How to explain git in simple words?](https://smusamashah.github.io/blog/2017/10/14/explain-git-in-simple-words)
   - [How to teach Git](https://rachelcarmena.github.io/2018/12/12/how-to-teach-git.html)
   - [How to verify commits on github via GPG key](https://daily-dev-tips.com/posts/how-to-verify-your-commits-on-github/) + [use Apple Keychain to store GPG Passphrases](https://gist.github.com/koshatul/2427643668d4e89c0086f297f9ed2130)
+  - [Popular git config options](https://jvns.ca/blog/2024/02/16/popular-git-config-options/)
 
 # `zsh` shell
 - zsh is an alternative shell to bash. It is the default in newer Macs [for licensing reasons](https://scriptingosx.com/2019/06/moving-to-zsh/).

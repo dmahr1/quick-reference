@@ -94,6 +94,7 @@
   - `gcmsg` = `git commit -m`
   - `gcam` = `git commit -a -m`
   - `gl` = `git pull`
+  - `gmom` = `git merge origin/$(git_main_branch)`
   - `gp` = `git push`
   - `gpsup` = `git push --set-upstream origin $(git_current_branch)`
   - `glol` = `git log` with pretty one-line view

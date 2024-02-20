@@ -457,7 +457,7 @@
     - Supports the built-in `assert` statement rather than special methods.
     - Automatically discovers test scripts named `test_*.py` or `*_test.py`.
     - Automatically discovers test cases in functions and classes whose names are prefixed with `test`, as well as anything inheriting from `unittest.TestCase`.
-- Pytest command line arguments
+- Pytest [command line arguments](https://docs.pytest.org/en/stable/reference/reference.html#command-line-flags):
   - **`-m`** runs tests as a module, similar to python -m.
   - **`-k <expr>`** selects tests whose names match string expression `<expr>`.
     - This can contain operators, e.g. `MyClass and not method`.
@@ -466,11 +466,14 @@
   - **`--pdb`** drops into PDB on errors; often combined with `-x`.
   - **`--trace`** drops into PDB at the start of *every* test.
   - **`--lf`** reruns only the test(s) that failed the last time Pytest was run.
+  - **`--ff`** reruns previously failed tests first, then everything else.
+  - **`--sw`** continue from last failing test, and exit on failure i.e. "stepwise" mode.
   - **`-v`** shows verbose output; **`--vv`** shows extra verbose output.
   - **`--tb={auto,no,line,short,native,long}`** controls the size of the traceback.
   - **`--show-capture={no,stdout,stderr,log,all}`** controls how captured output is shown on failed tests.
   - **`-s`** disables capturing so output (e.g. print statements) are passed along as normal.
   - **`--durations=N`** shows `N` slowest test durations (`0` for all).
+  - **`--fixtures`** lists available fixtures, their scope, and location.
 - Mock objects are used to replace complex entities in tests using the `unittest.mock` module.
   - **`MagickMock`** is a subclass of **`unittest.mock.Mock`** with most magic methods pre-defined.
   - **`patch('obj')`** will replace the selected obj with a MagicMock .

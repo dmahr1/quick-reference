@@ -102,6 +102,7 @@
   - `gsu` = `git submodule update`
   - `gsta` = `git stash`
   - `gstp` = `git stash pop`
+  - `gstaa` = `git stash apply`
 - Piping both stderr and stdout:
   - Write: `./my_script.sh > my_log.txt 2>&1`
   - Append: `./my_script.sh >> my_log.txt 2>&1`
@@ -215,6 +216,9 @@
   - **`conda env export`** generates a YML-formatted file with the environment for sharing.
   - **`conda clean`** TODO: add explanation
   - **`conda remove --name my_env --all`** removes an environment and all installed packages.
+- Pip commands
+  - **`pip show <package>`** lists the currently installed version of a package.
+  - **`pip install --upgrade <package>`** upgrades a package to the latest available version.
 - pip-tools
   - pip-compile TODO: add explanation and example
 - Resources
@@ -355,6 +359,9 @@
 - TODO: abc
 - TODO: os, including `is_file` versus `is_exists`
 - TODO: typing, what's available in what version (e.g. `|`), protocol
+  - `typing.Protocol` is a flexible way of enforcing interfaces, especially when class hierarchies are not feasible ([source](https://pybit.es/articles/typing-protocol-abc-alternative/)).
+
+
 
 # Python concurrency
 - Basics
@@ -457,6 +464,7 @@
     - Supports the built-in `assert` statement rather than special methods.
     - Automatically discovers test scripts named `test_*.py` or `*_test.py`.
     - Automatically discovers test cases in functions and classes whose names are prefixed with `test`, as well as anything inheriting from `unittest.TestCase`.
+    - The name of the currently executing test case is stored in the `PYTEST_CURRENT_TEST` environment variable.
 - Pytest [command line arguments](https://docs.pytest.org/en/stable/reference/reference.html#command-line-flags):
   - **`-m`** runs tests as a module, similar to python -m.
   - **`-k <expr>`** selects tests whose names match string expression `<expr>`.

@@ -257,6 +257,7 @@
   - Example: `f'{1e6:@<+17,.2f}' == '+1,000,000.00@@@@'`.
   - Datetime example: `f'{datetime.datetime.now():%Y-%m-%d}' == '2022-05-11'` using [`strftime` syntax](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
   - Debugging example: given `x = 10`, `f'{x=}' == 'x=10'`.
+  - `!r` calls `repr()` instead of `str()`: `f'{x!r}'`. Can combine with above: `f'{x=!r}'`
 - TODO: add raw strings via [this article](https://realpython.com/python-raw-strings/).
 - [Built-in functions](https://docs.python.org/3/library/functions.html) of note
   - `dir(module)` returns a list of defined names in a namespace, default is current namespace.
@@ -508,6 +509,7 @@
   - TODO: fixture autouse
   - TODO: fixture cleanup using `yield`
   - TODO: [parameterized tests](https://docs.pytest.org/en/stable/how-to/parametrize.html#pytest-mark-parametrize-parametrizing-test-functions)
+    - Stack multiple `@parametrize` decorators to test all combinations of multiple arguments.
 - Resources
   - [Real Python: Getting Started with Testing in Python](https://realpython.com/python-testing/)
   - [Real Python: Understanding the Python Mock Object Library](https://realpython.com/python-mock-library/)

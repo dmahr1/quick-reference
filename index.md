@@ -22,6 +22,7 @@
   - **Viewing differences** (`git diff`) shows changes between working tree and index.
     - `git diff HEAD` compares changes between working tree and last commit.
     - `git diff --staged` compares changes between index and last commit.
+    - `git diff --name-only origin/master...HEAD` lists changed files versus `master` branch.
   - **Committing** (`git commit`) saves changes from the index to the local repo.
     - `-m` specifies the commit message inline rather than opening an editor.
     - `-a` stages all modified files, but only tracked files.

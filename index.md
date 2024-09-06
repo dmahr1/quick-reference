@@ -268,7 +268,7 @@
   - `sorted()`, `max()`, and `min()` have optional `key` parameter defining how comparison key is extracted. Example: to sort objects by length, use `sorted(iterable, key=len)`.
   - `filter(func, iterable)` applies filter function `func`, only returning elements of iterable that return `True` when an argument to `func`.
   - `sum(iterables, [])` concatenates interables together.
-  - TODO: Add more based on [this article](https://treyhunner.com/2019/05/python-builtins-worth-learning/) and [this doc](https://docs.python.org/3/library/functions.html).
+  - TODO: Add more based on [this article](https://treyhunner.com/2019/05/python-builtins-worth-learning/) and [this doc](https://docs.python.org/3/library/functions.html) and [this tutorial](https://realpython.com/python-built-in-functions/).
 - List tricks
   - **Reverse arrays/strings** via negative step in slicing, e.g. `arr[::-1]` is reverse of iterable `arr`.
   - **Transpose** an iterable of iterables with `zip()`.
@@ -348,6 +348,13 @@
   - **`operator.itemgettr(*attrs)`** returns a function that gets attrs from its operand.
 - TODO: random (seed, random number in range, random integer in range, random choice from sequence)
 - TODO: pathlib
+  - Example: `PosixPath('/home/user/project/file.tar.gz')`
+    - `.root` and `.anchor`: `'/'`
+    - `.parent`: `'/home/user/project'`
+    - `.name`: `'file.tar.gz'`
+    - `.stem`: `'file.tar'`
+    - `.suffix`: `'.gz'`
+    - `.suffixes`: `['.tar', '.gz']`
 - TODO: datetime
 - TODO: pprint
 - TODO: heapq

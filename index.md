@@ -101,6 +101,7 @@
   - `glol` = `git log` with pretty one-line view
   - `glols` = `git log` with pretty view showing changes
   - `gsu` = `git submodule update`
+  - `gcp` = `git cherry-pick`
   - `gsta` = `git stash`
   - `gstp` = `git stash pop`
   - `gstaa` = `git stash apply`

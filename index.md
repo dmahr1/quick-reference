@@ -268,7 +268,7 @@
   - `sorted()`, `max()`, and `min()` have optional `key` parameter defining how comparison key is extracted. Example: to sort objects by length, use `sorted(iterable, key=len)`.
   - `filter(func, iterable)` applies filter function `func`, only returning elements of iterable that return `True` when an argument to `func`.
   - `sum(iterables, [])` concatenates interables together.
-  - TODO: Add more based on [this article](https://treyhunner.com/2019/05/python-builtins-worth-learning/) and [this doc](https://docs.python.org/3/library/functions.html) and [this tutorial](https://realpython.com/python-built-in-functions/).
+  - TODO: Add more based on [this article](https://treyhunner.com/2019/05/python-builtins-worth-learning/) and [this doc](https://docs.python.org/3/library/functions.html) and [this tutorial](https://realpython.com/python-built-in-functions/) and [this article](https://www.mattlayman.com/blog/2024/layman-guide-python-built-in-functions/).
 - List tricks
   - **Reverse arrays/strings** via negative step in slicing, e.g. `arr[::-1]` is reverse of iterable `arr`.
   - **Transpose** an iterable of iterables with `zip()`.

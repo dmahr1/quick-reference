@@ -348,7 +348,7 @@
   - **`operator.attrgettr(*attrs)`** returns a function that reads attrs from its operand.
   - **`operator.itemgettr(*attrs)`** returns a function that gets attrs from its operand.
 - TODO: random (seed, random number in range, random integer in range, random choice from sequence)
-- TODO: pathlib
+- TODO: pathlib, including [this reference](https://www.pythonmorsels.com/pathlib-module/)
   - Example: `PosixPath('/home/user/project/file.tar.gz')`
     - `.root` and `.anchor`: `'/'`
     - `.parent`: `'/home/user/project'`

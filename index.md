@@ -572,6 +572,55 @@
 - Hard to Describe: in order to be complete, the documentation for a variable or method must be long.
 - Nonobvious Code: the behavior or meaning of a piece of code cannot be understood easily.
 
+## Summary of principles from [*Naming Things: The Hardest Problem in Software Engineering*](https://www.goodreads.com/book/show/123845855-naming-things).
+- Why is naming hard?
+  - "An identifier's name is the communication of a dynamic concept to a dynamic audience. Any change in the original concept's definition, in the domain, or in the audience can make even a good name become a bad one."
+    - "Newly-introduced concepts are often poorly-defined, and their definition often evolves over time. It can be difficult to know how a concept may change in the next iteration. The concept and its name are also highly dependent on the domain, which can also change over time."
+    - "The audience is also dynamic. The namer can guess who the audience of the name will be, but the audience may change over time. Engineers with different backgrounds and different amounts of domain experience will likely have to understand the name. In some cases, names must be understood by increasingly large and varied audiences, like a data model name that must be understood by product managers, designers, customer support, and even end-users."
+- **Principle 1: Understandability**. A name should describe the concept it represents.
+  - An understandable name has high comprehension (it can be understood quickly) and high recall (it can be remembered easily).
+  - Describe the concept using common terms that can be found in dictionaries.
+  - Problem domain terminology should be preferred over solution domain terminology.
+    - The "problem domain" contains the information that defines a problem (e.g., requirements, goals, etc). This is more stable and more fundamental.
+    - The "solution domain" contains the aspects of the problem's solution(s) (e.g., the solution's design and implementation).
+  - Pluralization should be used correctly.
+  - Certain identifier types should typically use certain parts of speech:
+    - Classes: noun or noun phrases. Example: `User`, `PaymentMethod`.
+    - Variables: nouns, noun phrases, or linking verb + subject complement. Examples: `name`, `birth_date`, `is_valid`.
+    - Methods: verbs, verb phrases, or linking verb + subject completment. Examples: `validate`, `delete_all`, `is_valid`.
+    - Interfaces: nouns, noun phrases, or adjectives. Examples: `Parser`, `DataInput`, `Runnable`.
+  - Units should be included in measurements. Examples: `elapsed_duration_in_days` over `elapsed_duration`, `remaining_distance_in_meters` over `remaining_distance`.
+  - Avoid single-letter names, unless it's conventional in a language.
+  - Avoid abbreviations, unless widely known (e.g. `ID`, `URL`, `DNS`).
+  - Avoid clever or "cute" names.
+- **Principle 2: Conciseness**. A name should use only the words necessary to communicate the concept it represents.
+  - "A good name communicates a large amount of information to the relevant audience with a small number of letters."
+  - Use a name that demonstrates the intent of the concept: what it is meant to be used for, and not how it is implemented.
+  - Do not use a name that's so specific that irrelevant information is provided, and do not use a name that's so general that little or no relevant information is provided.
+  - Details about its implementation should not be included in the name, since they may change, are not relevant for most readers, and can always be seen by viewing the implementation.
+  - Richer words can convey more meaning. Examples: `fetch_user()` implies a call to a third party service, while `get_user()` does not.
+  - Omit metadata that's stored elsewhere. Typing information is implied or ideally visualized by the editor. The name of a class or interface should never have the suffix `Class` or `Interface`.
+  - Omit implementation details. If callers need to specify implementation details, this should be done in arguments rather than methods.
+  - Boolean names should always be stated in the positive to avoid double negatives. Example: `is_valid` rather than `is_invalid`.
+- **Principle 3: Consistency**. Names should be used and formatted uniformly.
+  - Obey naming the programming language's naming conventions e.g. `snake_case` versus `camelCase`.
+  - Each concept should only have one name
+  - Similar concepts should have similar names
+  - Similar names should have similar formats
+- **Principle 4: Distinguishability**. A name should be visually and phonetically distinguishable from other names.
+  - Avoid (near) homographs: two terms with the same spelling but different meanings.
+  - Avoid (near) homophones: two terms with the same pronunciation but different meainings/spellings.
+  - Avoid polysemes: a term with multiple related definitions.
+- How to apply these principles
+  - **Consistency should be prioritized over other principles** since inconsistency often violates the other principles.
+  - **Understandability usually beats Conciseness.** Distinguishability can be a tiebreaker. Understandability often wins. But if a name is prevalent across the codebase and the problem domain, then conciseness may win.
+  - **Distinguishability usually beats Understandability.**
+  - **Distinguishability usually beats Conciseness.**
+  - Renaming
+    - Once a name enters a codebase, it spreads throughout the codebase and becomes part of the team’s vocabulary and the team’s written output, including documents, slides, and knowledge bases.
+    - Similar to any other tech debt, bad names cause ongoing costs that can compound over time.
+    - The natural solution is to perform a rename, which has a one-time cost that may be less than the cumulative ongoing costs of a bad name.
+    - When considering whether to perform a rename, be careful to consider the rename’s scope, principal, interest, and process.
 
 # TODO: design patterns
 - Strategy pattern

@@ -533,7 +533,7 @@
 
 # Design principles
 
-## Summary of design principles from [*A Philosophy of Software Design*](https://www.goodreads.com/en/book/show/39996759)
+## Design principles from [*A Philosophy of Software Design*](https://www.goodreads.com/en/book/show/39996759)
 - Complexity is incremental: you have to sweat the small stuff.
 - Working code isn't enough.
   -  It's not acceptable to introduce unnecessary complexities in order to finish your current task faster. The most important thing is the long-term structure of the system.
@@ -572,7 +572,7 @@
 - Hard to Describe: in order to be complete, the documentation for a variable or method must be long.
 - Nonobvious Code: the behavior or meaning of a piece of code cannot be understood easily.
 
-## Summary of principles from [*Naming Things: The Hardest Problem in Software Engineering*](https://www.goodreads.com/book/show/123845855-naming-things).
+## Summary of [*Naming Things: The Hardest Problem in Software Engineering*](https://www.goodreads.com/book/show/123845855-naming-things).
 - Why is naming hard?
   - "An identifier's name is the communication of a dynamic concept to a dynamic audience. Any change in the original concept's definition, in the domain, or in the audience can make even a good name become a bad one."
     - "Newly-introduced concepts are often poorly-defined, and their definition often evolves over time. It can be difficult to know how a concept may change in the next iteration. The concept and its name are also highly dependent on the domain, which can also change over time."

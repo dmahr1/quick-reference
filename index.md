@@ -92,6 +92,7 @@
   - `gcb` = `git checkout -b`
   - `gcm` = `git checkout $(git_main_branch)`
   - `ga` = `git add`
+  - `gaa` = `git add --all`
   - `gcmsg` = `git commit -m`
   - `gcam` = `git commit -a -m`
   - `gl` = `git pull`
@@ -105,6 +106,11 @@
   - `gsta` = `git stash`
   - `gstp` = `git stash pop`
   - `gstaa` = `git stash apply`
+- Manually added aliases:
+  - `alias dps="docker ps"`
+  - `alias kgc="kubectl config get-contexts"`
+  - `alias kcc="kubectl config current-context"`
+  - Pretty-print the 10 branches that were most recently commited to: `alias gbls="git for-each-ref --color --format='%(color:red)%(objectname:short)%(color:reset)|%(color:yellow)%(refname:short)%(color:reset)|%(color:green)(%(committerdate:relative))%(color:reset)|%(color:bold blue)<%(authorname)>%(color:reset)' --sort=-committerdate refs/heads/ | head -n 10 | column -s '|' -t"`
 - Piping both stderr and stdout:
   - Write: `./my_script.sh > my_log.txt 2>&1`
   - Append: `./my_script.sh >> my_log.txt 2>&1`
@@ -344,6 +350,8 @@
   - **`@functools.lru_cache(maxsize=n)`** caches up to n results from the decorated function.
   - **`functools.partial()`** "freezes" a portion of a function's arguments, but still allows overriding.
     - TODO: add example
+  - **`@functools.wraps()`** ensures that decorated functions still appear to be themselves rather than taking on the name of their decorator.
+  - Decorators are nice until you have _multiple_ decorators and their ordering is kind of ambiguous.
 - [**`operator` module**](https://docs.python.org/3/library/operator.html)
   - **`operator.attrgettr(*attrs)`** returns a function that reads attrs from its operand.
   - **`operator.itemgettr(*attrs)`** returns a function that gets attrs from its operand.
@@ -396,7 +404,7 @@
     - **`async def`** means defined function can use `await`.
     - **`async with`** means context manager can be awaited.
   - Generator-based coroutines will be removed in Python 3.10
-    - `@asyncio.coroutine decorator` is like `async def`.
+    - `@asyncio.coroutine` decorator is like `async def`.
     - `yield from` is like `await`.
   - **`asnycio.gather`** collects coroutines/futures into a single future.
   - **`asyncio.Queue`** supports arbitrary, unrelated producers adding items to a queue from which consumers remove items.

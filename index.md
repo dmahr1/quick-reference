@@ -549,6 +549,9 @@
       - `pathlib.Path`: `FilePath`, `DirectoryPath`, `AnyPath`.
     - [Network types](https://docs.pydantic.dev/latest/api/networks/) include `EmailStr` (requires extra package), `AnyUrl`, `HttpUrl`, and more.
     - Extra types include [CSS colors](https://docs.pydantic.dev/latest/api/pydantic_extra_types_color/), [ISO country codes](https://docs.pydantic.dev/latest/api/pydantic_extra_types_country/), [phone numbers](https://docs.pydantic.dev/latest/api/pydantic_extra_types_phone_numbers/), [coordinates (in decimal degrees)](https://docs.pydantic.dev/latest/api/pydantic_extra_types_coordinate/), and more.
+  - "Lax" type coercion is the default, e.g. the string `'123'` is coerced to the integer `123` when assigned to an `int` field.
+    - [This table](https://docs.pydantic.dev/latest/concepts/conversion_table/) has all of the coercion rules.
+    - [Strict mode](https://docs.pydantic.dev/latest/concepts/strict_mode/) can be enabled to raise errors instead of coercing.
   - [Fields](https://docs.pydantic.dev/latest/concepts/fields/) can optionally be assigned a `Field()` to provide metadata:
     - `default` specifies the default value.
     - `default_factory` specifies a callable that returns the default value.

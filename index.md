@@ -531,6 +531,74 @@
   - [Real Python: Getting Started with Testing in Python](https://realpython.com/python-testing/)
   - [Real Python: Understanding the Python Mock Object Library](https://realpython.com/python-mock-library/)
 
+# Pydantic
+- [Pydantic](https://docs.pydantic.dev/latest/) is a library for type-aware parsing, validation, and serialization of data.
+  - **Definitions powered by type hints:** concise, declarative, and understandable, similar to dataclass definitions plus lots of extra types.
+  - **Type hints enforced at *runtime*:** this is unlike Python’s built-in type annotations and dataclass definitions, which are only used in type checkers and *ignored at runtime*.
+  - **“Lax” parsing:** Pydantic will attempt to coerce data to the appropriate type e.g. the string '1' coerced to the integer 1.
+  - **Customization**: custom validators/serializers alter data processing input/output.
+  - **Performance**: the pydantic-core is written in Rust and is highly scalable.
+- [Pydantic model](https://docs.pydantic.dev/latest/concepts/models/) definitions subclass `BaseModel`.
+  - [Types](https://docs.pydantic.dev/latest/concepts/types/) are defined by the type hints on class attributes.
+    - [Standard library types](https://docs.pydantic.dev/latest/api/standard_library_types/) include `str`, `int`, `float`, `bool`, `bytes`, `list`, `tuple`, `dict`, `set`, `frozenset`, `datetime`, `timedelta`, `Enum`, `typing.Literal`, `pathlib.Path`, and more.
+    - [Pydantic custom types](https://docs.pydantic.dev/latest/api/types/) include variations of standard library types, such as:
+      - `int`: `PositiveInt`, `NegativeInt`, `NonNegativeInt`, `NonPositiveInt`.
+      - `float`: `PositiveFloat`, `NegativeFloat`, `NonNegativeFloat`, `NonPositiveFloat`, `FiniteFloat`.
+      - `bytes`: `Base64Bytes`, `Base64UrlBytes`.
+      - `str`: `Base64Str`, `Base64UrlStr`, `SecretStr`.
+      - `pathlib.Path`: `FilePath`, `DirectoryPath`, `AnyPath`.
+    - [Network types](https://docs.pydantic.dev/latest/api/networks/) include `EmailStr` (requires extra package), `AnyUrl`, `HttpUrl`, and more.
+    - Extra types include [CSS colors](https://docs.pydantic.dev/latest/api/pydantic_extra_types_color/), [ISO country codes](https://docs.pydantic.dev/latest/api/pydantic_extra_types_country/), [phone numbers](https://docs.pydantic.dev/latest/api/pydantic_extra_types_phone_numbers/), [coordinates (in decimal degrees)](https://docs.pydantic.dev/latest/api/pydantic_extra_types_coordinate/), and more.
+  - [Fields](https://docs.pydantic.dev/latest/concepts/fields/) can optionally be assigned a `Field()` to provide metadata:
+    - `default` specifies the default value.
+    - `default_factory` specifies a callable that returns the default value.
+    - Numeric constraints `gt`, `ge`, `lt`, `le`, `multiple_of`, `allow_inf_nan` validate the value of number types.
+    - `min_length` and `max_length` define the min/max length of iterables (including strings).
+    - `regex` defines a regex pattern that a string must match.
+    - `validation_alias`, `serialization_alias`, and `alias` specify alternative name(s) to use when validating, serializing, and both.
+    - `frozen` disallows the field from being changed after instantiation.
+    - `strict` disallows type coercion i.e. input values must already be of the correct type.
+    - `exclude` omits the field from serialization.
+  - [`typing.Annotated` pattern](https://docs.pydantic.dev/latest/concepts/fields/#the-annotated-pattern) is an alternative way to define fields that can be more reusable than `Field()` alone.
+- [Validation](https://docs.pydantic.dev/latest/concepts/validators/) occurs during instantiation.
+  - The constructor only accepts keyword arguments; positional arguments are not allowed.
+  - `model_validate()` accepts dictionary-like objects whereas `model_validate_json()` accepts unparsed JSON strings.
+    - `strict` kwarg disallows type cocercion for this invocation.
+  - [`ValidationError` with detailed info is raised](https://docs.pydantic.dev/latest/errors/errors/) when validation fails.
+  - [`@field_validator()` decorator](https://docs.pydantic.dev/latest/concepts/validators/#field-validators) wraps custom validation `@classmethod` for the input to specific field.
+    - Positional arguments are the field names to which the validator applies, or `'*'` for all fields.
+    - `mode` kwarg specifies that the validator function is called `'before'` or `'after'` Pydantic's built-in validation; the `'plain'` and `'wrap'` modes are also available but less common.
+    - Errors should be raised as `ValueError`, `AssertionError` (with caution), or `PydanticCustomError`.
+    - `typing.Annotated` pattern can also specify validator functions in a more reusable way than the decorator pattern.
+  - [`@model_validator()` decorator](https://docs.pydantic.dev/latest/concepts/validators/#model-validators) is similar, except it wraps *instance* methods that can access multiple fields. Its `mode` kwarg behaves the same as above.
+- [Serialization](https://docs.pydantic.dev/latest/concepts/serialization/) converts Pydantic models to other formats.
+  - `model_dump()` converts the model to a dictionary-like object.
+    - `mode='json'` optionally ensures that the output is JSON-serializable e.g. `datetime` converted to `str`. This can also be done directly via `model_dump_json()`.
+    - `include` and `exclude` kwarg specifies (perhaps nested) fields to include or exclude.
+    - `exclude_unset` kwarg will omit fields not explicitly set by the user.
+    - `exclude_defaults` kwarg will omit fields that were set to their default value.
+    - `exclude_none` kwarg will omit fields whose values are `None`, regardless of how they were set.
+    - `warnings` controls whether serialization errors are ignored with `'none'`, logged with `'warn'`, or raise exceptions with `'error'`.
+    - `context` kwarg is an optional dict for providing context to the serializers.
+  - [`@field_serializer()` decorator](https://docs.pydantic.dev/latest/concepts/serialization/#custom-serializers) wraps custom serialization methods for specified fields.
+    - Positional arguments are the field names to which the serializer applies, or `'*'` for all fields.
+    - `mode` kwarg defaults to `'plain'` where serializer wholly overrides built-in serialization; `'wrap'` mode can fall back to normal serializer.
+    - `info` parameter of decorator method is the dict from the `context` kwarg of `model_dump()`.
+- [`ConfigDict`](https://docs.pydantic.dev/latest/api/config/#pydantic.config.ConfigDict) class set on the `model_config` class attribute enables fine-grained configuration of the model. Highlights include:
+  - `str_to_lower`, `str_to_upper`, and `str_strip_whitespace` automatically lowercases, uppercases, and strips whitespace during validation, respectively.
+  - `extra` specifies handling of extra fields not defined in the model: `'forbid'`, `'ignore'`, or `'allow'`. When allowed, extra data is saved in `__pydantic_extra__` attribute.
+  - `frozen=True` will make the model immutable after instantiation.
+  - `use_enum_values=True` populates models with the *value* of enums rather than the enum itself.
+  - `validate_assignment=True` performs validation when fields are reassigned to an already-instantiated model.
+  - `arbitrary_types_allowed=True` allows fields to have types other than the standard Pydantic types, though beware these won't work with serialization by default.
+  - `alias_generator` can automatically alias camelCase and PascalCase inputs to snake_case.
+  - `allow_inf_nan=False` disallows `Inf` and `NaN` values for *all* float fields, which is often desirable because many JSON parsing libraries don't properly support these.
+- Misc
+  - [`TypeAdapter`](https://docs.pydantic.dev/latest/concepts/type_adapter/) is a utility for invoking validation logic for Python objects that don't subclass `BaseModel`. Call its `validate_python()` and `validate_json()` methods.
+  - `@validate_call` decorator is a drop-in runtime type checker for arbitrary functions/methods. A call's arguments are validated against normal type annotations.
+  - `RootModel` can handle JSON where the outermost (root) object is a list instead of a dictionary.
+  - There isn't a clean way to make a model "partial" with all fields optional e.g. for PATCH requests that do partial updates; but there are [some workarounds](https://stackoverflow.com/a/76560886/1254992).
+
 # TODO: NumPy
 - Basics: shape, size, dtypes, resize, axes, [reshape with -1](https://realpython.com/numpy-reshape/#use-1-as-an-argument-in-numpy-reshape)
 - Conversion: tolist, to/from text files, npy pickling,

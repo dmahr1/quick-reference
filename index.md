@@ -193,7 +193,7 @@
 - Misc
   - Setting `HOMEBREW_NO_AUTO_UPDATE=1` will prevent auto-updates from occurring.
 
-# Python environments: pip, virtualenv, pipenv, conda
+# Python environments: pip, virtualenv, pipenv, conda, uv
 - Virtual Environments
   - **System packages** are built-in to the standard Python library.
   - **Site packages** are third party libraries that are installed separately in a folder specified by `import site; site.getsitepackages()`. But this doesn't disambiguate versions.
@@ -229,6 +229,15 @@
   - **`pip install --upgrade <package>`** upgrades a package to the latest available version.
 - pip-tools
   - pip-compile TODO: add explanation and example
+- [uv](https://docs.astral.sh/uv/) is a very fast package + project manager
+  - This is a single tool can replace `pip`, `pip-tools`, `pipx`, `poetry`, `pyenv`, `virtualenv` etc.
+  - `uv self update` will update `uv` itself.
+  - TODO: `uv python install`
+  - TODO: `uv venv`
+  - TODO: `uv pip sync`
+  - [`uv tool` handles command-line tools](https://docs.astral.sh/uv/guides/tools/), similar to `pipx`.
+    - `uv tool run` i.e. `uvx` runs a tool from an ephemeral environment.
+    - `uv tool install` installs a tool into a persistent environment; unlike `uv pip install`, this environment is standalone.
 - Resources
   - [Real Python: Python Virtual Environments - A Primer](https://realpython.com/python-virtual-environments-a-primer/)
   - [Real Python: Pipenv - A Guide to the New Python Packaging Tool](https://realpython.com/pipenv-guide/)
@@ -355,6 +364,19 @@
 - [**`operator` module**](https://docs.python.org/3/library/operator.html)
   - **`operator.attrgettr(*attrs)`** returns a function that reads attrs from its operand.
   - **`operator.itemgettr(*attrs)`** returns a function that gets attrs from its operand.
+- [**`argparse`  module**](https://docs.python.org/3/library/argparse.html)
+  - `argparse.ArgumentParser` is a class for parsing command-line arguments.
+  - `ArgumentParser.add_argument()` adds an argument to the parser.
+    - First is the name: a plain string e.g. `'argname'` for positional arguments, or dash-prefixed string(s) e.g. `'-a'` or `'--argname'` for optional arguments.
+    - `dest=<description>` overrides the default name, which replaces `-` with `_`.
+    - `help=<description>` describes the argument, which is shown when running the script with `-h` or `--help`.
+    - `required=True` makes an argument required.
+    - `default=<value>` sets a default value for an argument; this is ignored when `required=True`.
+    - `type=<type>` casts the argument to the specified type, e.g. `int`, `float`, `str`, `bool`, and will raise an exception if the conversion fails.
+    - `choices=<list>` restricts the argument to a set of choices.
+    - `nargs=<n>` specifies the number of arguments with regex-like syntax: `?` for 0 or 1, `*` for 0 or more, `+` for 1 or more, or an integer for a fixed number.
+    - `action='store_true'`/`action='store_false'` sets a boolean flag to `True`/`False` respectively when specified, and `False`/`True` by default.
+  - TODO: [clever way to test via argv params](https://jugmac00.github.io/blog/testing-argparse-applications-the-better-way/)
 - TODO: random (seed, random number in range, random integer in range, random choice from sequence)
 - TODO: pathlib, including [this reference](https://www.pythonmorsels.com/pathlib-module/)
   - Example: `PosixPath('/home/user/project/file.tar.gz')`
@@ -370,9 +392,7 @@
 - TODO: tempfile
 - TODO: glob, including `iglob`, `recursive`
 - TODO: shutil
-- TODO: csv
-- TODO: argparse, including [clever way to test via argv params](https://jugmac00.github.io/blog/testing-argparse-applications-the-better-way/)
-- TODO: typing
+- TODO: logging
 - TODO: dataclasses
 - TODO: abc
 - TODO: os, including `is_file` versus `is_exists`

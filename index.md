@@ -26,6 +26,7 @@
   - **Committing** (`git commit`) saves changes from the index to the local repo.
     - `-m` specifies the commit message inline rather than opening an editor.
     - `-a` stages all modified files, but only tracked files.
+    - `--no-verify` skips all pre-commit hooks e.g. linting, formatting.
   - **Viewing commit history** (`git log`) lists all the commits of the working tree.
   - **Pushing** (`git push`) shares changes in the local repo to the remote repo.
   - **Fetching** (`git fetch`) shares changes in the remote repo to the local repo.
@@ -52,7 +53,8 @@
 - **Stash** is a temporary holding area for changes, stored as a stack (LIFO) data structure.
   - `git stash` moves tracked changes from the index and working tree to the stash
     - `-u` or `--include-untracked` also moves untracked files, which are normally ignored.
-    - `git stash save <message>` includes a helpful message
+    - `--keep-index` ignores staged changes; useful for stashing only unstaged files.
+    - `-m <message>` includes a helpful message.
   - `git stash pop` moves top of stash back to the working tree and index.
   - `git stash apply` copies top of stash back to working tree and index, leaving it in-place.
   - `git stash list` lists the stash entries in the stack.

@@ -240,6 +240,7 @@
   - [`uv tool` handles command-line tools](https://docs.astral.sh/uv/guides/tools/), similar to `pipx`.
     - `uv tool run` i.e. `uvx` runs a tool from an ephemeral environment.
     - `uv tool install` installs a tool into a persistent environment; unlike `uv pip install`, this environment is standalone.
+  - See more from [uv cheatsheet](https://mathspp.com/blog/uv-cheatsheet)
 - Resources
   - [Real Python: Python Virtual Environments - A Primer](https://realpython.com/python-virtual-environments-a-primer/)
   - [Real Python: Pipenv - A Guide to the New Python Packaging Tool](https://realpython.com/pipenv-guide/)
@@ -312,6 +313,7 @@
     - `ZeroDivisionError`: a division denominator is zero.
     - `TypeError`: the type of an object is wrong.
     - `ValueError`: the value of an object wrong (but the type is OK).
+  - `.add_note()` can add additional information as strings (Python 3.11+ only).
 - Inheritance vs. composition
   - **Inheritance models "is a" relationships**: the subclass (aka derived class, subtype) inherits (aka extends, derives) from a base class (aka super class).
     - **Abstract base classes** exist to be inherited but never instantiated. Derive from `abc.ABC` to prevent instantiation and use `@abc.abstractmethod` to require implementation of decorated methods in subclasses.
@@ -400,6 +402,7 @@
 - TODO: os, including `is_file` versus `is_exists`
 - TODO: typing, what's available in what version (e.g. `|`), protocol
   - `typing.Protocol` is a flexible way of enforcing interfaces, especially when class hierarchies are not feasible ([source](https://pybit.es/articles/typing-protocol-abc-alternative/)).
+- TODO: context managers ([source](https://realpython.com/python-with-statement/))
 
 
 
@@ -511,6 +514,7 @@
     - This can contain operators, e.g. `MyClass and not method`.
     - Select a single test: `module::func` or `module::Class::method`.
   - **`-x`** stops after the first failure
+  - **`--maxfail=N`** stops after `N` failures.
   - **`--pdb`** drops into PDB on errors; often combined with `-x`.
   - **`--trace`** drops into PDB at the start of *every* test.
   - **`--lf`** reruns only the test(s) that failed the last time Pytest was run.
@@ -568,7 +572,7 @@
       - `float`: `PositiveFloat`, `NegativeFloat`, `NonNegativeFloat`, `NonPositiveFloat`, `FiniteFloat`.
       - `bytes`: `Base64Bytes`, `Base64UrlBytes`.
       - `str`: `Base64Str`, `Base64UrlStr`, `SecretStr`.
-      - `pathlib.Path`: `FilePath`, `DirectoryPath`, `AnyPath`.
+      - `pathlib.Path`: `FilePath`, `DirectoryPath`, `NewPath`.
     - [Network types](https://docs.pydantic.dev/latest/api/networks/) include `EmailStr` (requires extra package), `AnyUrl`, `HttpUrl`, and more.
     - Extra types include [CSS colors](https://docs.pydantic.dev/latest/api/pydantic_extra_types_color/), [ISO country codes](https://docs.pydantic.dev/latest/api/pydantic_extra_types_country/), [phone numbers](https://docs.pydantic.dev/latest/api/pydantic_extra_types_phone_numbers/), [coordinates (in decimal degrees)](https://docs.pydantic.dev/latest/api/pydantic_extra_types_coordinate/), and more.
   - "Lax" type coercion is the default, e.g. the string `'123'` is coerced to the integer `123` when assigned to an `int` field.
@@ -579,7 +583,7 @@
     - `default_factory` specifies a callable that returns the default value.
     - Numeric constraints `gt`, `ge`, `lt`, `le`, `multiple_of`, `allow_inf_nan` validate the value of number types.
     - `min_length` and `max_length` define the min/max length of iterables (including strings).
-    - `regex` defines a regex pattern that a string must match.
+    - `pattern` defines a regex pattern that a string must match.
     - `validation_alias`, `serialization_alias`, and `alias` specify alternative name(s) to use when validating, serializing, and both.
     - `frozen` disallows the field from being changed after instantiation.
     - `strict` disallows type coercion i.e. input values must already be of the correct type.
@@ -588,14 +592,14 @@
 - [Validation](https://docs.pydantic.dev/latest/concepts/validators/) occurs during instantiation.
   - The constructor only accepts keyword arguments; positional arguments are not allowed.
   - `model_validate()` accepts dictionary-like objects whereas `model_validate_json()` accepts unparsed JSON strings.
-    - `strict` kwarg disallows type cocercion for this invocation.
+    - `strict` kwarg disallows type coercion for this invocation.
   - [`ValidationError` with detailed info is raised](https://docs.pydantic.dev/latest/errors/errors/) when validation fails.
   - [`@field_validator()` decorator](https://docs.pydantic.dev/latest/concepts/validators/#field-validators) wraps custom validation `@classmethod` for the input to specific field.
     - Positional arguments are the field names to which the validator applies, or `'*'` for all fields.
     - `mode` kwarg specifies that the validator function is called `'before'` or `'after'` Pydantic's built-in validation; the `'plain'` and `'wrap'` modes are also available but less common.
     - Errors should be raised as `ValueError`, `AssertionError` (with caution), or `PydanticCustomError`.
     - `typing.Annotated` pattern can also specify validator functions in a more reusable way than the decorator pattern.
-  - [`@model_validator()` decorator](https://docs.pydantic.dev/latest/concepts/validators/#model-validators) is similar, except it wraps *instance* methods that can access multiple fields. Its `mode` kwarg behaves the same as above.
+  - [`@model_validator()` decorator](https://docs.pydantic.dev/latest/concepts/validators/#model-validators) is similar, except it wraps *instance* methods that can access multiple fields. Its `mode` kwarg behaves mostly the same as above.
 - [Serialization](https://docs.pydantic.dev/latest/concepts/serialization/) converts Pydantic models to other formats.
   - `model_dump()` converts the model to a dictionary-like object.
     - `mode='json'` optionally ensures that the output is JSON-serializable e.g. `datetime` converted to `str`. This can also be done directly via `model_dump_json()`.
@@ -608,7 +612,7 @@
   - [`@field_serializer()` decorator](https://docs.pydantic.dev/latest/concepts/serialization/#custom-serializers) wraps custom serialization methods for specified fields.
     - Positional arguments are the field names to which the serializer applies, or `'*'` for all fields.
     - `mode` kwarg defaults to `'plain'` where serializer wholly overrides built-in serialization; `'wrap'` mode can fall back to normal serializer.
-    - `info` parameter of decorator method is the dict from the `context` kwarg of `model_dump()`.
+    - `info: FieldSerializationInfo` parameter for providing extra context, parameters, mode, etc.
 - [`ConfigDict`](https://docs.pydantic.dev/latest/api/config/#pydantic.config.ConfigDict) class set on the `model_config` class attribute enables fine-grained configuration of the model. Highlights include:
   - `str_to_lower`, `str_to_upper`, and `str_strip_whitespace` automatically lowercases, uppercases, and strips whitespace during validation, respectively.
   - `extra` specifies handling of extra fields not defined in the model: `'forbid'`, `'ignore'`, or `'allow'`. When allowed, extra data is saved in `__pydantic_extra__` attribute.
@@ -724,10 +728,13 @@
     - When considering whether to perform a rename, be careful to consider the rename’s scope, principal, interest, and process.
 
 # TODO: design patterns
+- Design pattern resources:
+  - [Python Design Patterns](https://python-patterns.guide/)
+  - [Refactoring Guru](https://refactoring.guru/design-patterns)
 - Strategy pattern
 - Factory pattern
+- Builder pattern
 - Adapter pattern
 - Observer pattern
 - Visitor pattern
 - Decorator pattern
--

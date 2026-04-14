@@ -39,6 +39,7 @@
 - Less-common actions
   - **Updating submodules** (`git submodule update --init`)
   - **Amending** (`git commit --amend`) modifies the previous commit; don't do this after pushing.
+    - `git commit --amend --no-edit` one-liner adds staged changes to the previous commit.
   - **Restoring files** (`git checkout [<hash> --] <files>`)  overwrites <files> in the working tree and index for the versions from the commit with <hash>.
   - **Undo last commit** (`git reset --soft HEAD~1`) sets HEAD branch back by 1 commit, without touching any of the actual changes.
   - **Squashing** combines many commits into one, and can be done multiple ways.

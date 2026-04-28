@@ -240,13 +240,39 @@
   - pip-compile TODO: add explanation and example
 - [uv](https://docs.astral.sh/uv/) is a very fast package + project manager
   - This is a single tool can replace `pip`, `pip-tools`, `pipx`, `poetry`, `pyenv`, `virtualenv` etc.
-  - `uv self update` will update `uv` itself.
-  - TODO: `uv python install`
-  - TODO: `uv venv`
-  - TODO: `uv pip sync`
+    - [`uv self update`](https://docs.astral.sh/uv/reference/cli/#uv-self-update) will update `uv` itself.
+    - [`uv python install 3.11`](https://docs.astral.sh/uv/reference/cli/#uv-python-install) installs Python 3.11 in the user folder `~/.local/share/uv/python`.
+    - [`uv venv --python 3.11 .venv`](https://docs.astral.sh/uv/reference/cli/#uv-venv) creates a Python 3.11 virtual environment (i.e. the "env") in a new directory `.venv`.
+      - `source .venv/bin/activate` activates the env.
+      - `rm -rf .venv` deletes the env.
+  - The **[`uv pip`](https://docs.astral.sh/uv/reference/cli/#uv-pip) API** is a lower-level interface resembling `pip` and `pip-tools`, but more powerful. Once the env is activated:
+    - [`uv pip install <package>`](https://docs.astral.sh/uv/reference/cli/#uv-pip-install) installs the package.
+    - [`uv pip uninstall <package>`](https://docs.astral.sh/uv/reference/cli/#uv-pip-uninstall) uninstalls the package.
+    - [`uv pip compile`](https://docs.astral.sh/uv/reference/cli/#uv-pip-compile) compiles a `requirements.in` file to `requirements.txt` or other formats.
+    - [`uv pip sync`](https://docs.astral.sh/uv/reference/cli/#uv-pip-sync) syncs the env to match a `requirements.txt` file or other formats.
+    - [`uv pip freeze`](https://docs.astral.sh/uv/reference/cli/#uv-pip-freeze) and [`uv pip list`](https://docs.astral.sh/uv/reference/cli/#uv-pip-list) list the packages in the env in requirements and tabular formats, respectively.
+    - [`uv pip show <package>`](https://docs.astral.sh/uv/reference/cli/#uv-pip-show) shows information about a package.
+    - [`uv pip tree`](https://docs.astral.sh/uv/reference/cli/#uv-pip-tree) displays the dependency tree of an env.
+    - [`uv pip check`](https://docs.astral.sh/uv/reference/cli/#uv-pip-check) verifies installed packages have compatible dependencies.
+  - The **"project" API** is higher-level, where dependencies are defined in `pyproject.toml` and the env is synchronized accordingly.
+    - [`uv init`](https://docs.astral.sh/uv/reference/cli/#uv-init) initializes a new project in `pyproject.toml`.
+    - [`uv add <package>`](https://docs.astral.sh/uv/reference/cli/#uv-add) installs the package and updates the `uv.lock` and project environment.
+    - [`uv remove <package>`](https://docs.astral.sh/uv/reference/cli/#uv-remove) uninstalls the package and updates the `uv.lock` and project environment.
+    - [`uv version`](https://docs.astral.sh/uv/reference/cli/#uv-version) reads/updates the project's version.
+    - [`uv sync`](https://docs.astral.sh/uv/reference/cli/#uv-sync) updates the project's env to match the `uv.lock`.
+    - [`uv lock`](https://docs.astral.sh/uv/reference/cli/#uv-lock) upserts the `uv.lock` file.
+    - [`uv export`](https://docs.astral.sh/uv/reference/cli/#uv-export) exports the project's lockfile to other formats.
+    - [`uv tree`](https://docs.astral.sh/uv/reference/cli/#uv-tree) displays the project's dependency tree.
+  - [`uv run <script>`](https://docs.astral.sh/uv/reference/cli/#uv-run) runs a script in:
+    - 1) If inline dependency metadata is present, an ephemeral env is created and used.
+    - 2) Else if a project environment is present, it is used.
+    - 3) Else if a virtual environment is present in the current directory (or a parent directory), it is used.
   - [`uv tool` handles command-line tools](https://docs.astral.sh/uv/guides/tools/), similar to `pipx`.
-    - `uv tool run` i.e. `uvx` runs a tool from an ephemeral environment.
-    - `uv tool install` installs a tool into a persistent environment; unlike `uv pip install`, this environment is standalone.
+    - [`uv tool run <tool>` i.e. `uvx <tool>`](https://docs.astral.sh/uv/reference/cli/#uv-tool-run) runs a tool from an ephemeral environment.
+    - [`uv tool install <tool>`](https://docs.astral.sh/uv/reference/cli/#uv-tool-install) installs a tool into an isolated, ephemeral environment.
+    - [`uv tool uninstall <tool>`](https://docs.astral.sh/uv/reference/cli/#uv-tool-uninstall) uninstalls a tool.
+    - [`uv tool list`](https://docs.astral.sh/uv/reference/cli/#uv-tool-list) lists all installed tools.
+    - [`uv tool upgrade <tool>`](https://docs.astral.sh/uv/reference/cli/#uv-tool-upgrade) upgrades
   - See more from [uv cheatsheet](https://mathspp.com/blog/uv-cheatsheet)
 - Resources
   - [Real Python: Python Virtual Environments - A Primer](https://realpython.com/python-virtual-environments-a-primer/)

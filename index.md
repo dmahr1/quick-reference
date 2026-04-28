@@ -59,6 +59,12 @@
   - `git stash pop` moves top of stash back to the working tree and index.
   - `git stash apply` copies top of stash back to working tree and index, leaving it in-place.
   - `git stash list` lists the stash entries in the stack.
+- **Pruning repos** can help eliminate thousands of files and free substantial disk space.
+  - `git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d` deletes that once had a remote counterpart that has since been deleted (i.e. on GitHub). This will encounter errors if the branch was squashed; if so, use `-D` to force deletion.
+  - `git for-each-ref --format='%(refname:short) %(upstream)' refs/heads | awk '$2 == "" {print $1}' | xargs git branch -D` deletes all local branches that have no remote counterpart.
+  - `git clean -ndx` performs a "dry run" of a repo clean, listing all untracked files and directories; this includes those ignored by `.gitignore` e.g. `node_modules`.
+  - `git clean -fdx` performs the  clean, permanently deleted all untracked and ignored files, returning the repository to a "freshly cloned" state but preserving the .git history, local branches, and stashes.
+  - `git gc --aggressive --prune=now` optimizes the repo database, aggressively compresses file deltas, and removes unreachable "orphan" commits from deleted branches.
 - Aliases and other configuration
   - `git config --global alias.co checkout` so `git co` does `git checkout`.
   - `git config --global alias.br branch` so `git br` does `git branch`.

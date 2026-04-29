@@ -245,6 +245,9 @@
     - [`uv venv --python 3.11 .venv`](https://docs.astral.sh/uv/reference/cli/#uv-venv) creates a Python 3.11 virtual environment (i.e. the "env") in a new directory `.venv`.
       - `source .venv/bin/activate` activates the env.
       - `rm -rf .venv` deletes the env.
+    - [`uv python find`](https://docs.astral.sh/uv/reference/cli/#uv-python-find) finds the Python executable for the current directory.
+      - Appending [a specific version](https://docs.astral.sh/uv/concepts/python-versions/#requesting-a-version) is allowed e.g. `uv python find >=3.12,<3.13`.
+      - `--system` ignores virtual environments.
   - The **[`uv pip`](https://docs.astral.sh/uv/reference/cli/#uv-pip) API** is a lower-level interface resembling `pip` and `pip-tools`, but more powerful. Once the env is activated:
     - [`uv pip install <package>`](https://docs.astral.sh/uv/reference/cli/#uv-pip-install) installs the package.
     - [`uv pip uninstall <package>`](https://docs.astral.sh/uv/reference/cli/#uv-pip-uninstall) uninstalls the package.

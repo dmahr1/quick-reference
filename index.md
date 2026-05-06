@@ -123,10 +123,19 @@
 - Piping both stderr and stdout:
   - Write: `./my_script.sh > my_log.txt 2>&1`
   - Append: `./my_script.sh >> my_log.txt 2>&1`
-- powerlevel10k theme
-  - Use [Iosevka patched with Nerd Fonts](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/Iosevka) so that extra symbols are available.
 - [zsh-syntax-highlighting external plugin](https://github.com/zsh-users/zsh-syntax-highlighting).
 - [zsh-autosuggestions external plugin](https://github.com/zsh-users/zsh-autosuggestions)
+- [atuin](https://github.com/atuinsh/atuin) replaces zsh's built-in history with a SQLite database
+  - `CTRL+R` opens an interactive TUI for fuzzy history search, replacing the built-in single-result reverse search.
+  - Records context alongside each command: working directory, exit code, and duration.
+  - Filter history to only the current directory by pressing `CTRL+R` then `CTRL+F` to toggle filter mode.
+  - `atuin search <query>` searches history non-interactively from the command line.
+  - `atuin stats` shows statistics about the most frequently used commands.
+- [fzf](https://github.com/junegunn/fzf) is a general-purpose fuzzy finder that integrates into the shell
+  - `CTRL+T` fuzzy-searches files and subdirectories in the current directory tree, inserting the selected path into the current command.
+  - `ALT+C` fuzzy-searches subdirectories and `cd`s into the selected one.
+  - Can be used ad hoc by piping any list into it, e.g. `git branch | fzf` to interactively pick a branch.
+  - `fzf --preview 'cat {}'` shows a preview pane of file contents while browsing.
 - Resources
   - ["Moving to zsh" multi-part article](https://scriptingosx.com/2019/06/moving-to-zsh/)
   - [Configuring VSCode to work with zsh](https://linuxpip.org/vscode-zsh/)

@@ -46,10 +46,10 @@
     - To squash contiguous commits, use `git reset --soft HEAD~X` to move HEAD, but not working tree or index back by X commits, then use `git commit` as usual.
     - To squash non-contiguous commits, rewrite the last X commits of history with the interactive rebase tool `git rebase -i HEAD~X`. In the editor, reorder lines as needed and enter squash or `fixup` next to the commits that should be melded upwards.
   - **Cherry-picking** (`git cherry-pick`) applies the changes from existing commits.
-    - `--no-commit` only stages, rather than committing (the default).
+    - `-n` or `--no-commit` only stages, rather than committing (the default).
     - It's best to cherry pick one at a time, otherwise merge conflicts get confusing.
   - **Reverting** (`git revert`) undoes the changes from the specified commit(s).
-    - `--no-commit` only stages, rather than committing (the default).
+    - `-n` or `--no-commit` only stages, rather than committing (the default).
     - It's best to revert one at a time, otherwise merge conflicts get confusing.
 - **Stash** is a temporary holding area for changes, stored as a stack (LIFO) data structure.
   - `git stash` moves tracked changes from the index and working tree to the stash
@@ -104,6 +104,8 @@
   - `gaa` = `git add --all`
   - `gcmsg` = `git commit -m`
   - `gcam` = `git commit -a -m`
+  - `gc!` = `git commit --verbose --amend`
+  - `gcn!` = `git commit --verbose --amend --no-edit`
   - `gl` = `git pull`
   - `gmom` = `git merge origin/$(git_main_branch)`
   - `gp` = `git push`
